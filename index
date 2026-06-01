@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Bot — Your Invisible Event Planning Partner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<!-- Professional vector icons to replace emojis -->
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+  :root {
+    --hot-pink: #FF0055;
+    --magenta: #E8004D;
+    --light-pink: #FF6B9D;
+    --pale-pink: #FFB3CC;
+    --blush: #FFD6E7;
+    --super-pale: #FFF0F5;
+    --white: #FFFFFF;
+    --dark-rose: #8B0038;
+    --soft-gray: #F7F7F9;
+    --text-dark: #1A0A0F;
+    --text-mid: #5C2D42;
+    --text-light: #A06080;
+    --bubble-pink: #FF8CB8;
+    --glow: rgba(255, 0, 85, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  .feather {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+  }
+
+  /* ───────────── NAV ───────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,0,85,0.08);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .nav-logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--hot-pink);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--hot-pink); }
+
+  .nav-cta {
+    background: var(--hot-pink);
+    color: var(--white) !important;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 600 !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+    box-shadow: 0 4px 20px rgba(255,0,85,0.3);
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(255,0,85,0.4) !important;
+    color: var(--white) !important;
+  }
+
+  /* ───────────── HERO ───────────── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff0f5 0%, #ffffff 50%, #fff0f8 100%);
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(255,0,85,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,107,157,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,0,85,0.08);
+    border: 1px solid rgba(255,0,85,0.2);
+    border-radius: 50px;
+    padding: 6px 16px 6px 10px;
+    margin-bottom: 28px;
+    animation: fadeSlideUp 0.6s ease both;
+  }
+
+  .hero-badge-dot {
+    width: 8px; height: 8px;
+    background: var(--hot-pink);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+  }
+
+  .hero-badge span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--hot-pink);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .hero-headline {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 1.05;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    animation: fadeSlideUp 0.6s ease 0.1s both;
+  }
+
+  .hero-headline .accent {
+    color: var(--hot-pink);
+    position: relative;
+  }
+
+  .hero-headline .accent::after {
+    content: '';
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--hot-pink), var(--light-pink));
+    border-radius: 2px;
+    opacity: 0.4;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-mid);
+    margin-bottom: 40px;
+    max-width: 480px;
+    animation: fadeSlideUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeSlideUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: var(--hot-pink);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(255,0,85,0.35);
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(255,0,85,0.45);
+    background: var(--magenta);
+  }
+
+  .btn-secondary {
+    color: var(--text-mid);
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 8px;
+    transition: color 0.2s;
+  }
+
+  .btn-secondary:hover { color: var(--hot-pink); }
+
+  .hero-trust {
+    margin-top: 48px;
+    animation: fadeSlideUp 0.6s ease 0.4s both;
+  }
+
+  .hero-trust p {
+    font-size: 12px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .platform-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .platform-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid rgba(255,0,85,0.15);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-mid);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .platform-chip .feather {
+    width: 14px; height: 14px;
+    color: var(--hot-pink);
+  }
+
+  /* ───────────── PHONE MOCKUP ───────────── */
+  .hero-phone {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    animation: fadeSlideUp 0.6s ease 0.2s both;
+    perspective: 1000px; /* Essential for 3D tilt */
+  }
+
+  .phone-wrap {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out; /* Smooth mouse tracking */
+  }
+
+  .phone-glow {
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(ellipse, rgba(255,0,85,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+    transform: translateZ(-50px); /* Pushes glow behind phone */
+  }
+
+  .phone-frame {
+    width: 340px;
+    background: var(--white);
+    border-radius: 44px;
+    box-shadow:
+      0 0 0 10px #1a0a0f,
+      0 0 0 12px rgba(255,255,255,0.2),
+      0 40px 80px rgba(26,10,15,0.25),
+      0 0 100px rgba(255,0,85,0.1);
+    overflow: hidden;
+    position: relative;
+    transform: translateZ(20px); /* Pops phone out for 3D effect */
+  }
+
+  .phone-notch {
+    background: #1a0a0f;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .phone-notch::after {
+    content: '';
+    width: 100px;
+    height: 22px;
+    background: #1a0a0f;
+    border-radius: 0 0 18px 18px;
+    position: absolute;
+    top: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  }
+
+  .phone-status {
+    position: absolute;
+    top: 10px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    z-index: 2;
+  }
+
+  .chat-app {
+    background: #f7f7f9;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-header {
+    background: white;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+
+  .chat-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .chat-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .chat-header-info { flex: 1; }
+
+  .chat-header-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-dark);
+  }
+
+  .chat-header-status {
+    font-size: 11px;
+    color: #22c55e;
+    font-weight: 500;
+  }
+
+  .chat-messages {
+    flex: 1;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 460px;
+  }
+
+  .msg {
+    max-width: 80%;
+    animation: msgPop 0.3s ease both;
+  }
+
+  @keyframes msgPop {
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .msg-bot { align-self: flex-start; }
+  .msg-user { align-self: flex-end; }
+
+  .msg-bubble {
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .msg-bot .msg-bubble {
+    background: white;
+    color: var(--text-dark);
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+
+  .msg-user .msg-bubble {
+    background: var(--hot-pink);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg-time {
+    font-size: 10px;
+    color: var(--text-light);
+    margin-top: 3px;
+    text-align: right;
+    padding: 0 4px;
+  }
+
+  .msg-bot .msg-time { text-align: left; }
+
+  .msg-weather-card {
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid rgba(255,0,85,0.15);
+    padding: 12px;
+    margin-top: 6px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  }
+
+  .weather-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .weather-icon {
+    color: var(--hot-pink);
+  }
+
+  .weather-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .weather-date {
+    font-size: 10px;
+    color: var(--text-light);
+  }
+
+  .weather-alert {
+    background: rgba(255,180,0,0.1);
+    border: 1px solid rgba(255,180,0,0.3);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #8B6000;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .weather-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .weather-stat {
+    font-size: 10px;
+    color: var(--text-light);
+  }
+
+  .weather-stat strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  .msg-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .msg-option-btn {
+    background: rgba(255,0,85,0.03);
+    border: 1.5px solid rgba(255,0,85,0.15);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--hot-pink);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .msg-option-btn:hover {
+    background: var(--hot-pink);
+    color: white;
+    transform: translateX(3px);
+  }
+
+  .msg-typing {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .typing-dot {
+    width: 6px; height: 6px;
+    background: var(--pale-pink);
+    border-radius: 50%;
+    animation: typingBounce 1.2s infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); background: var(--pale-pink); }
+    30% { transform: translateY(-5px); background: var(--hot-pink); }
+  }
+
+  .msg-confirm-card {
+    background: linear-gradient(135deg, var(--hot-pink), #FF6B9D);
+    border-radius: 14px;
+    padding: 14px;
+    color: white;
+    margin-top: 6px;
+  }
+
+  .confirm-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .confirm-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .confirm-detail {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.9;
+  }
+
+  .confirm-check {
+    width: 16px; height: 16px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    flex-shrink: 0;
+  }
+
+  .chat-input-row {
+    background: white;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .chat-input {
+    flex: 1;
+    background: #f7f7f9;
+    border: 1.5px solid rgba(255,0,85,0.15);
+    border-radius: 20px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    color: var(--text-dark);
+    transition: border-color 0.2s;
+  }
+
+  .chat-input:focus { border-color: var(--hot-pink); }
+
+  .chat-send-btn {
+    width: 36px; height: 36px;
+    background: var(--hot-pink);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(255,0,85,0.3);
+  }
+
+  .chat-send-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 18px rgba(255,0,85,0.4);
+  }
+
+  /* Floating bubbles behind phone */
+  .float-bubble {
+    position: absolute;
+    border-radius: 16px;
+    background: white;
+    padding: 12px 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: floatBob 4s ease-in-out infinite;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateZ(40px);
+  }
+
+  .float-bubble .feather {
+    width: 16px; height: 16px;
+    color: var(--hot-pink);
+  }
+
+  @keyframes floatBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .bubble-left {
+    left: -160px;
+    animation-delay: 0.5s;
+  }
+
+  .bubble-right {
+    right: -160px;
+    animation-delay: 1.5s;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ───────────── SOCIAL PROOF STRIP ───────────── */
+  .proof-strip {
+    background: var(--hot-pink);
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    overflow: hidden;
+  }
+
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .proof-number {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: white;
+  }
+
+  .proof-label {
+    font-size: 13px;
+    opacity: 0.85;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.25);
+  }
+
+  /* ───────────── HOW IT WORKS ───────────── */
+  .section {
+    padding: 100px 48px;
+  }
+
+  .section-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--hot-pink);
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-mid);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* ───────────── STEPS ───────────── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .step-card {
+    background: var(--white);
+    border: 1.5px solid rgba(255,0,85,0.1);
+    border-radius: 24px;
+    padding: 32px 24px;
+    position: relative;
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .step-card:hover {
+    border-color: var(--hot-pink);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(255,0,85,0.1);
+  }
+
+  .step-number {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 56px;
+    color: rgba(255,0,85,0.06);
+    line-height: 1;
+    position: absolute;
+    top: 16px; right: 20px;
+  }
+
+  .step-icon {
+    width: 52px; height: 52px;
+    background: var(--super-pale);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hot-pink);
+    margin-bottom: 20px;
+    border: 1.5px solid rgba(255,0,85,0.12);
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-mid);
+  }
+
+  /* ───────────── FEATURES ───────────── */
+  .features-bg {
+    background: linear-gradient(160deg, var(--super-pale) 0%, white 100%);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 24px;
+    padding: 36px 32px;
+    border: 1.5px solid rgba(255,0,85,0.08);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--hot-pink), var(--light-pink));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .feature-card:hover::before { transform: scaleX(1); }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(255,0,85,0.08);
+    border-color: rgba(255,0,85,0.2);
+  }
+
+  .feature-icon-wrap {
+    width: 60px; height: 60px;
+    border-radius: 18px;
+    background: var(--super-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hot-pink);
+    margin-bottom: 24px;
+    border: 1.5px solid rgba(255,0,85,0.1);
+  }
+
+  .feature-icon-wrap .feather {
+    width: 28px; height: 28px;
+  }
+
+  .feature-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-mid);
+  }
+
+  .feature-tag {
+    display: inline-block;
+    background: rgba(255,0,85,0.05);
+    color: var(--hot-pink);
+    border-radius: 50px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ───────────── PLATFORMS ───────────── */
+  .platforms-section {
+    padding: 100px 48px;
+    background: white;
+  }
+
+  .platforms-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .platform-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .plat-card {
+    background: var(--soft-gray);
+    border-radius: 20px;
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1.5px solid rgba(255,0,85,0.05);
+    transition: all 0.3s;
+  }
+
+  .plat-card:hover {
+    background: white;
+    border-color: rgba(255,0,85,0.2);
+    box-shadow: 0 8px 24px rgba(255,0,85,0.08);
+    transform: translateY(-2px);
+  }
+
+  .plat-icon {
+    width: 48px; height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: var(--text-dark);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    flex-shrink: 0;
+  }
+
+  .plat-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text-dark);
+  }
+
+  .plat-desc {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  /* ───────────── LIVE DEMO SECTION ───────────── */
+  .demo-section {
+    background: linear-gradient(135deg, #fff0f5, #ffffff, #fff0f8);
+    padding: 100px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .demo-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(255,0,85,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .demo-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .demo-chat-frame {
+    background: white;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(26,10,15,0.08), 0 0 0 1px rgba(255,0,85,0.08);
+    position: sticky;
+    top: 100px;
+  }
+
+  .demo-chat-header {
+    background: var(--hot-pink);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .demo-chat-header .chat-avatar {
+    background: white;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+
+  .demo-chat-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+  }
+
+  .demo-chat-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .demo-messages {
+    padding: 22px;
+    background: #f7f7f9;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  .demo-input-bar {
+    background: white;
+    padding: 14px 18px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    align-items: center;
+  }
+
+  .demo-input {
+    flex: 1;
+    background: #f7f7f9;
+    border: 1.5px solid rgba(255,0,85,0.15);
+    border-radius: 24px;
+    padding: 11px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    color: var(--text-dark);
+    transition: border-color 0.2s;
+  }
+
+  .demo-input:focus { border-color: var(--hot-pink); }
+
+  .demo-send {
+    width: 42px; height: 42px;
+    background: var(--hot-pink);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(255,0,85,0.35);
+    flex-shrink: 0;
+  }
+
+  .demo-send:hover { transform: scale(1.1); }
+
+  .demo-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .demo-step {
+    display: flex;
+    gap: 20px;
+    opacity: 0.4;
+    transition: opacity 0.4s;
+  }
+
+  .demo-step.active { opacity: 1; }
+
+  .demo-step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--super-pale);
+    border: 2px solid rgba(255,0,85,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--hot-pink);
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .demo-step.active .demo-step-num {
+    background: var(--hot-pink);
+    color: white;
+    border-color: var(--hot-pink);
+    box-shadow: 0 4px 14px rgba(255,0,85,0.35);
+  }
+
+  .demo-step-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+  .demo-step-desc {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ───────────── TESTIMONIALS ───────────── */
+  .testimonials-section {
+    background: white;
+    padding: 100px 48px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .testimonial-card {
+    background: var(--soft-gray);
+    border-radius: 24px;
+    padding: 32px 28px;
+    border: 1.5px solid rgba(255,0,85,0.05);
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(255,0,85,0.05);
+    border-color: rgba(255,0,85,0.2);
+  }
+
+  .testimonial-quote {
+    font-size: 48px;
+    color: var(--pale-pink);
+    font-family: 'Syne', sans-serif;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .testimonial-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+  }
+
+  .testimonial-person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testimonial-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--hot-pink), var(--light-pink));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  .testimonial-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-dark);
+  }
+
+  .testimonial-role {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+
+  .testimonial-flag {
+    margin-left: auto;
+    color: var(--hot-pink);
+  }
+
+  /* ───────────── PRICING ───────────── */
+  .pricing-section {
+    background: linear-gradient(160deg, var(--super-pale) 0%, white 100%);
+    padding: 100px 48px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .price-card {
+    background: white;
+    border-radius: 28px;
+    padding: 40px 32px;
+    border: 1.5px solid rgba(255,0,85,0.1);
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .price-card.featured {
+    background: var(--hot-pink);
+    border-color: var(--hot-pink);
+    transform: scale(1.04);
+    box-shadow: 0 30px 70px rgba(255,0,85,0.3);
+  }
+
+  .price-card:not(.featured):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(255,0,85,0.08);
+    border-color: rgba(255,0,85,0.2);
+  }
+
+  .price-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark-rose);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .price-plan {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--hot-pink);
+    margin-bottom: 12px;
+  }
+
+  .price-card.featured .price-plan { color: rgba(255,255,255,0.8); }
+
+  .price-amount {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--text-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .price-card.featured .price-amount { color: white; }
+
+  .price-period {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 28px;
+  }
+
+  .price-card.featured .price-period { color: rgba(255,255,255,0.7); }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .price-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+
+  .price-card.featured .price-feature { color: rgba(255,255,255,0.9); }
+
+  .price-check {
+    width: 20px; height: 20px;
+    background: rgba(255,0,85,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hot-pink);
+    flex-shrink: 0;
+  }
+  .price-check .feather { width: 12px; height: 12px; }
+
+  .price-card.featured .price-check {
+    background: rgba(255,255,255,0.25);
+    color: white;
+  }
+
+  .btn-plan {
+    width: 100%;
+    padding: 14px;
+    border-radius: 50px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .btn-plan-outline {
+    background: transparent;
+    border: 2px solid rgba(255,0,85,0.2);
+    color: var(--hot-pink);
+  }
+
+  .btn-plan-outline:hover {
+    background: var(--hot-pink);
+    border-color: var(--hot-pink);
+    color: white;
+  }
+
+  .btn-plan-white {
+    background: white;
+    border: none;
+    color: var(--hot-pink);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+
+  .btn-plan-white:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+  /* ───────────── CTA ───────────── */
+  .cta-section {
+    background: var(--hot-pink);
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 60px);
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .cta-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  .cta-email-row {
+    display: flex;
+    gap: 12px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .cta-input {
+    flex: 1;
+    padding: 16px 22px;
+    border-radius: 50px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    color: var(--text-dark);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .cta-btn {
+    background: var(--text-dark);
+    color: white;
+    padding: 16px 28px;
+    border-radius: 50px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
+
+  /* ───────────── FOOTER ───────────── */
+  footer {
+    background: var(--text-dark);
+    padding: 60px 48px 40px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: white;
+    margin-top: 12px;
+    margin-bottom: 14px;
+  }
+
+  .footer-brand-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: 260px;
+  }
+
+  .footer-col-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--light-pink); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  /* ───────────── SCROLLBAR ───────────── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--pale-pink); border-radius: 2px; }
+
+  /* ───────────── RESPONSIVE ───────────── */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-phone { display: none; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .platforms-inner { grid-template-columns: 1fr; }
+    .demo-inner { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 440px; margin: 60px auto 0; }
+    .price-card.featured { transform: none; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .proof-strip { gap: 30px; flex-wrap: wrap; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    .section, .platforms-section, .demo-section, .testimonials-section, .pricing-section, .cta-section { padding: 60px 20px; }
+    .steps-grid, .features-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .cta-email-row { flex-direction: column; }
+    footer { padding: 40px 20px 30px; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .bubble-left, .bubble-right { display: none; }
+  }
+
+  /* Invisible scrollbar for chat */
+  .demo-messages::-webkit-scrollbar { width: 3px; }
+  .demo-messages::-webkit-scrollbar-thumb { background: var(--pale-pink); }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--pale-pink); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="logobot.png" class="nav-logo-icon planbot-logo-svg" alt="Plan Bot Logo">
+    <span class="nav-logo-text">Plan Bot</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#platforms">Platforms</a></li>
+    <li><a href="#demo">Live Demo</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#demo" class="nav-cta">Try For Free</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span>Now live worldwide — LINE, WhatsApp & Email</span>
+      </div>
+      <h1 class="hero-headline">
+        The event planner<br>
+        nobody <span class="accent">sees</span>,<br>
+        everyone <span class="accent">loves</span>
+      </h1>
+      <p class="hero-sub">
+        Plan Bot is your invisible AI assistant that coordinates every detail — schedules, invites, RSVPs, weather, shopping — through the apps your guests already use. No downloads. No friction. Just perfect execution.
+      </p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-primary">
+          <i data-feather="zap"></i>
+          Start Planning Free
+        </a>
+        <a href="#how" class="btn-secondary">
+          See how it works
+          <i data-feather="arrow-right"></i>
+        </a>
+      </div>
+      <div class="hero-trust">
+        <p>Works seamlessly with</p>
+        <div class="platform-chips">
+          <div class="platform-chip"><i data-feather="message-circle"></i> WhatsApp</div>
+          <div class="platform-chip"><i data-feather="message-square"></i> LINE</div>
+          <div class="platform-chip"><i data-feather="mail"></i> Email</div>
+          <div class="platform-chip"><i data-feather="smartphone"></i> SMS</div>
+          <div class="platform-chip"><i data-feather="send"></i> Telegram</div>
+        </div>
+      </div>
+    </div>
+    <!-- Phone mockup -->
+    <div class="hero-phone">
+      <div class="phone-wrap">
+        <div class="phone-glow"></div>
+        <!-- Floating badges -->
+        <div class="float-bubble bubble-left" style="top: 80px;">
+          <i data-feather="check-circle"></i> <span style="color:#1A0A0F">14 RSVPs confirmed</span>
+        </div>
+        <div class="float-bubble bubble-right" style="top: 200px; animation-delay:1s;">
+          <i data-feather="sun"></i> <span style="color:#1A0A0F">Weather check: Clear</span>
+        </div>
+        <div class="float-bubble bubble-left" style="bottom: 120px; animation-delay:2s;">
+          <i data-feather="shopping-bag"></i> <span style="color:#1A0A0F">Shopping list ready</span>
+        </div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <div class="phone-status">
+              <span>9:41</span>
+              <span>●●●</span>
+            </div>
+          </div>
+          <div class="chat-app">
+            <div class="chat-header">
+              <div class="chat-avatar">
+                <img src="logobot.png" alt="Plan Bot">
+              </div>
+              <div class="chat-header-info">
+                <div class="chat-header-name">Plan Bot</div>
+                <div class="chat-header-status">● Online — planning your event</div>
+              </div>
+            </div>
+            <div class="chat-messages" id="heroChat">
+              <div class="msg msg-user">
+                <div class="msg-bubble">Hey! I want to plan a rooftop BBQ for 20 people on June 14th</div>
+                <div class="msg-time">9:38</div>
+              </div>
+              <div class="msg msg-bot">
+                <div class="msg-bubble">Love it! Let me check weather for June 14th and find the best time.</div>
+                <div class="msg-weather-card">
+                  <div class="weather-header">
+                    <span class="weather-icon"><i data-feather="cloud-rain"></i></span>
+                    <div>
+                      <div class="weather-title">June 14 — Weather Alert</div>
+                      <div class="weather-date">High confidence forecast</div>
+                    </div>
+                  </div>
+                  <div class="weather-alert">
+                    <i data-feather="alert-triangle" style="width:14px; height:14px;"></i> 78% chance of heavy rain, 12–8pm
+                  </div>
+                  <div class="weather-stats">
+                    <div class="weather-stat"><strong>22°C</strong>Temp</div>
+                    <div class="weather-stat"><strong>78%</strong>Rain</div>
+                    <div class="weather-stat"><strong>40km/h</strong>Wind</div>
+                  </div>
+                </div>
+                <div class="msg-time">9:38</div>
+              </div>
+              <div class="msg msg-bot">
+                <div class="msg-bubble">Rain looks likely. Want me to check alternatives?</div>
+                <div class="msg-options">
+                  <div class="msg-option-btn"><i data-feather="calendar" style="width:14px;"></i> Move to June 15 (sunny, 26°C)</div>
+                  <div class="msg-option-btn"><i data-feather="home" style="width:14px;"></i> Find an indoor venue instead</div>
+                  <div class="msg-option-btn"><i data-feather="umbrella" style="width:14px;"></i> Keep date, add rain backup plan</div>
+                </div>
+                <div class="msg-time">9:38</div>
+              </div>
+            </div>
+            <div class="chat-input-row">
+              <input class="chat-input" type="text" placeholder="Reply to Plan Bot...">
+              <button class="chat-send-btn">
+                <i data-feather="send" style="color: white; width: 16px; height: 16px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROOF STRIP ── -->
+<div class="proof-strip">
+  <div class="proof-item">
+    <span class="proof-number">50K+</span>
+    <span class="proof-label">Events<br>planned</span>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <span class="proof-number">99%</span>
+    <span class="proof-label">RSVP<br>response rate</span>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <span class="proof-number">180+</span>
+    <span class="proof-label">Countries<br>supported</span>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <span class="proof-number">0</span>
+    <span class="proof-label">Apps for guests<br>to download</span>
+  </div>
+  <div class="proof-divider"></div>
+  <div class="proof-item">
+    <span class="proof-number">4.9★</span>
+    <span class="proof-label">Average host<br>rating</span>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-title">From idea to fully<br>booked — in minutes</h2>
+    <p class="section-sub">Just describe what you want. Plan Bot handles everything else, invisibly, behind the scenes.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-number">01</span>
+        <div class="step-icon"><i data-feather="message-circle"></i></div>
+        <div class="step-title">Describe your event</div>
+        <p class="step-desc">Chat naturally with Plan Bot — "dinner for 8 next Saturday at my place" is all it takes to get started.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">02</span>
+        <div class="step-icon"><i data-feather="cpu"></i></div>
+        <div class="step-title">AI checks everything</div>
+        <p class="step-desc">Plan Bot cross-references guests' calendars, checks live weather, and finds the perfect date that works for everyone.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">03</span>
+        <div class="step-icon"><i data-feather="send"></i></div>
+        <div class="step-title">Invites go out</div>
+        <p class="step-desc">Personalized invitations are sent via each guest's preferred channel — WhatsApp, LINE, email — no app download needed.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">04</span>
+        <div class="step-icon"><i data-feather="smile"></i></div>
+        <div class="step-title">You show up as host</div>
+        <p class="step-desc">RSVPs tracked, reminders sent, shopping list generated. You just arrive and enjoy. Plan Bot stays invisible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="section features-bg" id="features">
+  <div class="section-inner">
+    <div class="section-eyebrow">Features</div>
+    <h2 class="section-title">Everything a brilliant<br>event planner would do</h2>
+    <p class="section-sub">Ten layers of intelligence, all running silently so you never have to think about them.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="cloud-drizzle"></i></div>
+        <div class="feature-name">Live Weather Intelligence</div>
+        <p class="feature-desc">Plan Bot monitors real-time and 10-day forecasts for your event location. If rain threatens, it automatically suggests alternative dates or indoor backup options.</p>
+        <span class="feature-tag">Weather API</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="calendar"></i></div>
+        <div class="feature-name">Multi-Calendar Scheduling</div>
+        <p class="feature-desc">Connects to guests' Google, Apple, and Outlook calendars to find the perfect overlap. Plan Bot finds the date that works for the most people automatically.</p>
+        <span class="feature-tag">Calendar Sync</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="mail"></i></div>
+        <div class="feature-name">Personalized Invitations</div>
+        <p class="feature-desc">Each guest receives a beautiful, personalized invitation in their language and through their preferred channel. RSVP with a single tap, no account needed.</p>
+        <span class="feature-tag">Multi-channel</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="check-circle"></i></div>
+        <div class="feature-name">Smart RSVP Tracking</div>
+        <p class="feature-desc">Real-time dashboard showing who's confirmed, declined, or hasn't responded. Automatic follow-up nudges sent at the right time without you lifting a finger.</p>
+        <span class="feature-tag">Automated</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="shopping-cart"></i></div>
+        <div class="feature-name">Dynamic Shopping Lists</div>
+        <p class="feature-desc">Based on your menu and confirmed guest count (including dietary restrictions), Plan Bot generates a precise shopping list, estimates costs, and suggests local stores.</p>
+        <span class="feature-tag">Smart Lists</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="eye-off"></i></div>
+        <div class="feature-name">Invisible Branding</div>
+        <p class="feature-desc">Plan Bot subtly signs its messages, turning every guest into a potential new user. Your reputation as an effortlessly organized host grows — while Plan Bot quietly works.</p>
+        <span class="feature-tag">Viral Growth</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="map-pin"></i></div>
+        <div class="feature-name">Location & Logistics</div>
+        <p class="feature-desc">Drop a venue or let Plan Bot suggest options. It attaches maps, parking info, transit directions, and estimated travel times — all personalized for each guest.</p>
+        <span class="feature-tag">Directions API</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="coffee"></i></div>
+        <div class="feature-name">Dietary Matching</div>
+        <p class="feature-desc">Guests share dietary needs on RSVP. Plan Bot compiles them, generates a menu that works for everyone, and adds the right ingredients to your shopping list.</p>
+        <span class="feature-tag">Personalization</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="bell"></i></div>
+        <div class="feature-name">Automated Reminders</div>
+        <p class="feature-desc">Smart reminders at 1 week, 24 hours, and 1 hour before the event. Plan Bot knows when to nudge and when to leave people alone.</p>
+        <span class="feature-tag">Smart Timing</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-wrap"><i data-feather="bar-chart-2"></i></div>
+        <div class="feature-name">Post-Event Insights</div>
+        <p class="feature-desc">After the event, get a summary: attendance rate, who had fun, what worked, and suggestions for next time. Your events improve automatically.</p>
+        <span class="feature-tag">Analytics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLATFORMS ── -->
+<section class="platforms-section" id="platforms">
+  <div class="platforms-inner">
+    <div>
+      <div class="section-eyebrow">No App Required</div>
+      <h2 class="section-title">Meet guests<br>where they are</h2>
+      <p class="section-sub" style="margin-bottom:0">Plan Bot lives inside the apps your guests already have. Zero friction. Zero barriers. 100% engagement.</p>
+    </div>
+    <div class="platform-cards">
+      <div class="plat-card">
+        <div class="plat-icon"><i data-feather="message-square"></i></div>
+        <div>
+          <div class="plat-name">WhatsApp</div>
+          <div class="plat-desc">2B+ users worldwide</div>
+        </div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-icon"><i data-feather="message-circle"></i></div>
+        <div>
+          <div class="plat-name">LINE</div>
+          <div class="plat-desc">200M+ in Asia</div>
+        </div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-icon"><i data-feather="mail"></i></div>
+        <div>
+          <div class="plat-name">Email</div>
+          <div class="plat-desc">Universal fallback</div>
+        </div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-icon"><i data-feather="smartphone"></i></div>
+        <div>
+          <div class="plat-name">SMS / iMessage</div>
+          <div class="plat-desc">No data needed</div>
+        </div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-icon"><i data-feather="send"></i></div>
+        <div>
+          <div class="plat-name">Telegram</div>
+          <div class="plat-desc">700M+ users</div>
+        </div>
+      </div>
+      <div class="plat-card">
+        <div class="plat-icon"><i data-feather="facebook"></i></div>
+        <div>
+          <div class="plat-name">Facebook Msg</div>
+          <div class="plat-desc">1.3B Messenger users</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIVE DEMO ── -->
+<section class="demo-section" id="demo">
+  <div class="section-inner" style="max-width:1280px;margin:0 auto;">
+    <div class="section-eyebrow">Live Demo</div>
+    <h2 class="section-title">Plan a full event<br>right here</h2>
+    <p class="section-sub">Click through a real planning journey — from rough idea to fully booked event, including a live weather alert.</p>
+  </div>
+  <div class="demo-inner" style="max-width:1280px;margin:40px auto 0;">
+    <div class="demo-chat-frame">
+      <div class="demo-chat-header">
+        <div class="chat-avatar" style="background:rgba(255,255,255,1);">
+          <img src="logobot.png" alt="Plan Bot">
+        </div>
+        <div>
+          <div class="demo-chat-name">Plan Bot</div>
+          <div class="demo-chat-sub">Your invisible event planner • Always on</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:6px;">
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
+        </div>
+      </div>
+      <div class="demo-messages" id="demoMessages">
+        <div class="msg msg-bot">
+          <div class="msg-bubble">Hey! I'm Plan Bot. Tell me about the event you want to create — what kind, when, and who's invited?</div>
+          <div class="msg-time">Now</div>
+        </div>
+      </div>
+      <div class="demo-input-bar">
+        <input class="demo-input" id="demoInput" type="text" placeholder="e.g. garden party for my birthday next month...">
+        <button class="demo-send" id="demoSendBtn" onclick="handleDemoSend()">
+          <i data-feather="send" style="color: white; width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Steps sidebar -->
+    <div class="demo-steps">
+      <div style="margin-bottom:8px;">
+        <div class="section-eyebrow" style="margin-bottom:8px;">The Planning Journey</div>
+        <p style="font-size:15px;color:var(--text-mid);line-height:1.6;">Watch Plan Bot guide you through each stage — from a casual idea to a fully organised event with confirmed guests.</p>
+      </div>
+      <div class="demo-step active" id="step-0">
+        <div class="demo-step-num">1</div>
+        <div class="demo-step-content">
+          <div class="demo-step-label">Describe your event</div>
+          <div class="demo-step-desc">Just tell Plan Bot what you want in plain language — no forms, no fields.</div>
+        </div>
+      </div>
+      <div class="demo-step" id="step-1">
+        <div class="demo-step-num">2</div>
+        <div class="demo-step-content">
+          <div class="demo-step-label">Weather check & date selection</div>
+          <div class="demo-step-desc">Live weather API scans your date. Flags risks. Suggests better alternatives.</div>
+        </div>
+      </div>
+      <div class="demo-step" id="step-2">
+        <div class="demo-step-num">3</div>
+        <div class="demo-step-content">
+          <div class="demo-step-label">Guest list & channels</div>
+          <div class="demo-step-desc">Invitations crafted for each guest's preferred messaging app.</div>
+        </div>
+      </div>
+      <div class="demo-step" id="step-3">
+        <div class="demo-step-num">4</div>
+        <div class="demo-step-content">
+          <div class="demo-step-label">RSVPs & logistics</div>
+          <div class="demo-step-desc">Tracking responses, dietary needs, and building your shopping list.</div>
+        </div>
+      </div>
+      <div class="demo-step" id="step-4">
+        <div class="demo-step-num">5</div>
+        <div class="demo-step-content">
+          <div class="demo-step-label">Event confirmed!</div>
+          <div class="demo-step-desc">Every detail locked in. You just show up and be the amazing host.</div>
+        </div>
+      </div>
+
+      <!-- Quick-start suggestions -->
+      <div style="margin-top:20px;">
+        <p style="font-size:12px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Try these examples</p>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="quickStarts">
+          <button onclick="quickStart(0)" class="msg-option-btn" style="font-size:13px;font-weight:500;color:var(--text-mid);background:white;border-color:rgba(0,0,0,0.1);"><i data-feather="chevron-right" style="width: 14px;"></i> Rooftop BBQ for 20 on June 14th</button>
+          <button onclick="quickStart(1)" class="msg-option-btn" style="font-size:13px;font-weight:500;color:var(--text-mid);background:white;border-color:rgba(0,0,0,0.1);"><i data-feather="chevron-right" style="width: 14px;"></i> Surprise birthday dinner, next Saturday</button>
+          <button onclick="quickStart(2)" class="msg-option-btn" style="font-size:13px;font-weight:500;color:var(--text-mid);background:white;border-color:rgba(0,0,0,0.1);"><i data-feather="chevron-right" style="width: 14px;"></i> Wine tasting night for 12 friends</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">From Hosts Worldwide</div>
+    <h2 class="section-title">They looked effortless.<br>Plan Bot made it so.</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">I planned a dinner for 18 people across three time zones. Plan Bot found a time, invited everyone on WhatsApp, and reminded them the day before. My friends thought I was incredibly organised. I wasn't — Plan Bot was.</p>
+        <div class="testimonial-person">
+          <div class="testimonial-avatar">M</div>
+          <div>
+            <div class="testimonial-name">Mia Andersson</div>
+            <div class="testimonial-role">Product Designer, Stockholm</div>
+          </div>
+          <span class="testimonial-flag"><i data-feather="globe"></i></span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">The weather alert saved our outdoor wedding anniversary party. It flagged 80% rain two days before and suggested an indoor venue nearby. 30 guests, perfectly rerouted with one message.</p>
+        <div class="testimonial-person">
+          <div class="testimonial-avatar">K</div>
+          <div>
+            <div class="testimonial-name">Kenji Watanabe</div>
+            <div class="testimonial-role">Chef & Restaurateur, Osaka</div>
+          </div>
+          <span class="testimonial-flag"><i data-feather="globe"></i></span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">I coordinate family reunions across 4 countries. Different people use different apps. Plan Bot reaches everyone without any of them needing to do anything. Absolute game-changer.</p>
+        <div class="testimonial-person">
+          <div class="testimonial-avatar">P</div>
+          <div>
+            <div class="testimonial-name">Priya Nair</div>
+            <div class="testimonial-role">Event Coordinator, Mumbai</div>
+          </div>
+          <span class="testimonial-flag"><i data-feather="globe"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Start free. Scale<br>when you love it.</h2>
+    <p class="section-sub">No credit card required. Your first three events are on us.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-plan">Starter</div>
+        <div class="price-amount">$0</div>
+        <div class="price-period">forever free</div>
+        <ul class="price-features">
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> 3 events per month</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Up to 15 guests</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> WhatsApp & Email</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Weather alerts</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Basic RSVP tracking</li>
+        </ul>
+        <button class="btn-plan btn-plan-outline">Get Started Free</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-plan">Host</div>
+        <div class="price-amount">$12</div>
+        <div class="price-period">per month, billed annually</div>
+        <ul class="price-features">
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Unlimited events</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Up to 100 guests</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> All 8 messaging platforms</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Live weather fallbacks</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Shopping lists</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Dietary tracking</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Post-event insights</li>
+        </ul>
+        <button class="btn-plan btn-plan-white">Start 14-Day Trial</button>
+      </div>
+      <div class="price-card">
+        <div class="price-plan">Pro</div>
+        <div class="price-amount">$39</div>
+        <div class="price-period">per month, billed annually</div>
+        <ul class="price-features">
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Everything in Host</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Unlimited guests</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Custom branding</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Priority AI responses</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Venue suggestions API</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Team collaboration</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Dedicated support</li>
+        </ul>
+        <button class="btn-plan btn-plan-outline">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div style="margin-bottom:16px; display:flex; justify-content:center;">
+      <i data-feather="award" style="color:white; width: 48px; height: 48px;"></i>
+    </div>
+    <h2 class="cta-title">Your best event<br>is one message away</h2>
+    <p class="cta-sub">Join thousands of hosts worldwide who look effortlessly organised — because Plan Bot is working invisibly behind every event.</p>
+    <div class="cta-email-row">
+      <input class="cta-input" type="email" placeholder="your@email.com">
+      <button class="cta-btn">Start Free</button>
+    </div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:14px;">No credit card needed. Works with WhatsApp, LINE, Email & more.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="logobot.png" width="34" height="34" alt="Plan Bot Logo" style="border-radius: 8px;">
+          <span class="footer-brand-name">Plan Bot</span>
+        </div>
+        <p class="footer-brand-desc">The invisible AI event coordinator that works through the messaging apps your guests already love. No downloads. No friction. Just perfect events.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">GDPR</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Plan Bot. All rights reserved.</span>
+      <span style="display:flex;align-items:center;gap:6px;">Built for modern hosts.</span>
+      <span>plan-bot.com</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ── -->
+<script>
+// Initialize Feather icons
+feather.replace();
+
+// Dynamic 3D tilt effect for the hero phone mockup
+const phoneWrap = document.querySelector('.phone-wrap');
+document.addEventListener('mousemove', (e) => {
+  // Only apply tilt if screen is large enough
+  if(window.innerWidth > 1024) {
+    const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+    const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+    phoneWrap.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateZ(20px)`;
+  }
+});
+
+// Demo Chat Logic
+const demoMessages = document.getElementById('demoMessages');
+const demoInput = document.getElementById('demoInput');
+let demoStep = 0;
+
+const quickStartTexts = [
+  "Rooftop BBQ for 20 on June 14th",
+  "Surprise birthday dinner, next Saturday",
+  "Wine tasting night for 12 friends"
+];
+
+function quickStart(idx) {
+  demoInput.value = quickStartTexts[idx];
+  handleDemoSend();
+}
+
+function setActiveStep(n) {
+  for (let i = 0; i <= 4; i++) {
+    const el = document.getElementById('step-' + i);
+    if (el) el.classList.toggle('active', i === n);
+  }
+}
+
+// BUG FIXED: Handles null content directly allowing 'typing' bubbles without reading properties of null
+function appendMsg(type, content, delay = 0) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const msg = document.createElement('div');
+      msg.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-bot');
+
+      if (type === 'typing') {
+        msg.innerHTML = `<div class="msg-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+        demoMessages.appendChild(msg);
+        demoMessages.scrollTop = demoMessages.scrollHeight;
+        resolve(msg);
+        return;
+      }
+
+      if (!content) return resolve(msg); // safe fallback if content is null
+
+      if (typeof content === 'string') {
+        msg.innerHTML = `<div class="msg-bubble">${content}</div><div class="msg-time">Just now</div>`;
+      } else if (content.type === 'weather') {
+        msg.innerHTML = `
+          <div class="msg-bubble">${content.text || ''}</div>
+          <div class="msg-weather-card" style="margin-top:6px">
+            <div class="weather-header">
+              <span class="weather-icon">${content.icon}</span>
+              <div>
+                <div class="weather-title">${content.date} — Weather Check</div>
+                <div class="weather-date">Live forecast data</div>
+              </div>
+            </div>
+            <div class="weather-alert">${content.alert}</div>
+            <div class="weather-stats">
+              <div class="weather-stat"><strong>${content.temp}</strong>Temp</div>
+              <div class="weather-stat"><strong>${content.rain}</strong>Rain</div>
+              <div class="weather-stat"><strong>${content.wind}</strong>Wind</div>
+            </div>
+          </div>
+          <div class="msg-time">Just now</div>`;
+      } else if (content.type === 'calendar') {
+        msg.innerHTML = `
+          <div class="msg-bubble">${content.text || ''}</div>
+          <div class="msg-weather-card" style="margin-top:6px;border-color:rgba(34,197,94,0.3);">
+            <div class="weather-header">
+              <span class="weather-icon" style="color:#16a34a">${content.icon}</span>
+              <div>
+                <div class="weather-title">${content.date} — Perfect Day!</div>
+                <div class="weather-date">Recommended date</div>
+              </div>
+            </div>
+            <div class="weather-stats">
+              <div class="weather-stat"><strong>${content.temp}</strong>Temp</div>
+              <div class="weather-stat"><strong>${content.rain}</strong>Rain</div>
+              <div class="weather-stat"><strong>${content.wind}</strong>Wind</div>
+            </div>
+          </div>
+          <div class="msg-time">Just now</div>`;
+      } else if (content.type === 'guestList') {
+        const chips = content.channels.map(c => `
+          <div style="display:flex;align-items:center;gap:8px;background:#f7f7f9;border-radius:10px;padding:8px 10px;margin:4px 0;">
+            <span style="font-size:16px">${c.icon}</span>
+            <span style="font-size:12px;font-weight:600;color:#1A0A0F">${c.name}</span>
+            <span style="margin-left:auto;font-size:11px;color:#A06080;background:rgba(255,0,85,0.08);padding:2px 8px;border-radius:50px;">${c.count}</span>
+          </div>`).join('');
+        msg.innerHTML = `
+          <div class="msg-bubble">${content.text || ''}</div>
+          <div style="background:white;border-radius:14px;border:1.5px solid rgba(255,0,85,0.12);padding:12px;margin-top:6px;">
+            ${chips}
+          </div>
+          <div class="msg-time">Just now</div>`;
+      } else if (content.type === 'rsvpTracker') {
+        const total = content.confirmed + content.declined + content.pending;
+        msg.innerHTML = `
+          <div class="msg-bubble">${content.text || ''}</div>
+          <div style="background:white;border-radius:14px;border:1.5px solid rgba(255,0,85,0.12);padding:14px;margin-top:6px;">
+            <div style="display:flex;gap:8px;margin-bottom:10px;">
+              <div style="flex:1;background:rgba(34,197,94,0.08);border-radius:10px;padding:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:800;color:#16a34a;font-family:'Syne',sans-serif">${content.confirmed}</div>
+                <div style="font-size:10px;color:#16a34a;font-weight:600">Confirmed</div>
+              </div>
+              <div style="flex:1;background:rgba(239,68,68,0.08);border-radius:10px;padding:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:800;color:#dc2626;font-family:'Syne',sans-serif">${content.declined}</div>
+                <div style="font-size:10px;color:#dc2626;font-weight:600">Declined</div>
+              </div>
+              <div style="flex:1;background:rgba(245,158,11,0.08);border-radius:10px;padding:10px;text-align:center;">
+                <div style="font-size:22px;font-weight:800;color:#d97706;font-family:'Syne',sans-serif">${content.pending}</div>
+                <div style="font-size:10px;color:#d97706;font-weight:600">Pending</div>
+              </div>
+            </div>
+            <div style="background:#f7f7f9;border-radius:8px;overflow:hidden;height:6px;">
+              <div style="height:100%;width:${(content.confirmed/total)*100}%;background:linear-gradient(90deg,var(--hot-pink),var(--light-pink));border-radius:8px;transition:width 0.5s;"></div>
+            </div>
+            <div style="font-size:10px;color:var(--text-light);margin-top:5px;text-align:right;">${content.confirmed} of ${total} responded</div>
+          </div>
+          <div class="msg-time">Just now</div>`;
+      } else if (content.type === 'confirm') {
+        const details = content.details.map(d => `<div class="confirm-detail"><div class="confirm-check"><i data-feather="check" style="width:10px;"></i></div>${d}</div>`).join('');
+        msg.innerHTML = `
+          <div class="msg-confirm-card">
+            <div class="confirm-title">${content.title}</div>
+            <div class="confirm-details">${details}</div>
+          </div>
+          <div class="msg-time">Just now</div>`;
+      }
+
+      demoMessages.appendChild(msg);
+      demoMessages.scrollTop = demoMessages.scrollHeight;
+      feather.replace(); // Ensure dynamic icons render
+      resolve(msg);
+    }, delay);
+  });
+}
+
+async function showTypingThenMsg(content, typingDelay = 500, msgDelay = 1400) {
+  // BUG FIXED: Calls 'typing' to correctly render bubbles before showing content
+  const typingMsg = await appendMsg('typing', null, typingDelay); 
+  demoMessages.scrollTop = demoMessages.scrollHeight;
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      typingMsg.remove();
+      appendMsg('bot', content).then(resolve);
+    }, msgDelay);
+  });
+}
+
+let demoState = 0;
+let isTyping = false;
+
+async function handleDemoSend() {
+  if (isTyping) return;
+  const text = demoInput.value.trim();
+  if (!text) return;
+
+  isTyping = true;
+  demoInput.value = '';
+  demoInput.disabled = true;
+
+  await appendMsg('user', text);
+
+  if (demoState === 0) {
+    setActiveStep(1);
+    await showTypingThenMsg({ type: 'text', text: `Love it! Let me run a <strong>live weather check</strong> for your event date...` }, 300, 1200);
+    await showTypingThenMsg({
+      type: 'weather',
+      text: '',
+      date: 'Saturday, June 14',
+      icon: '<i data-feather="cloud-rain"></i>',
+      alert: '<i data-feather="alert-triangle" style="width: 14px;"></i> 78% chance of heavy rain, 12pm–9pm',
+      temp: '19°C',
+      rain: '78%',
+      wind: '42km/h'
+    }, 400, 1600);
+    await showTypingThenMsg('Rain is very likely that day. I recommend we shift. Let me check the next clear day for you!', 300, 1000);
+    await showTypingThenMsg({
+      type: 'calendar',
+      text: '',
+      date: 'Sunday, June 15',
+      icon: '<i data-feather="sun"></i>',
+      temp: '26°C',
+      rain: '5%',
+      wind: '12km/h'
+    }, 300, 1200);
+    await showTypingThenMsg('June 15 looks perfect. Now, who should I invite? Send me names, numbers, or emails.', 200, 900);
+    demoState = 1;
+    setActiveStep(2);
+
+  } else if (demoState === 1) {
+    await showTypingThenMsg('Got it! I can see how to reach each of your guests.', 300, 1000);
+    await showTypingThenMsg({
+      type: 'guestList',
+      text: '',
+      channels: [
+        { icon: '<i data-feather="message-circle"></i>', name: 'WhatsApp', count: '9 guests' },
+        { icon: '<i data-feather="message-square"></i>', name: 'LINE', count: '4 guests' },
+        { icon: '<i data-feather="mail"></i>', name: 'Email', count: '5 guests' },
+        { icon: '<i data-feather="smartphone"></i>', name: 'SMS', count: '2 guests' },
+      ]
+    }, 400, 1400);
+    await showTypingThenMsg('Personalised invites sent to all 20 guests in their preferred app! Watching for RSVPs now...', 300, 1000);
+    demoState = 2;
+    setActiveStep(3);
+
+  } else if (demoState === 2) {
+    await showTypingThenMsg('RSVPs are coming in fast! Here\'s the live tracker.', 300, 1000);
+    await showTypingThenMsg({
+      type: 'rsvpTracker',
+      text: '',
+      confirmed: 14,
+      declined: 2,
+      pending: 4,
+    }, 400, 1400);
+    await showTypingThenMsg('14 confirmed and counting! Shall I build the shopping list based on confirmed headcount?', 300, 1000);
+    demoState = 3;
+    setActiveStep(4);
+
+  } else if (demoState === 3) {
+    await showTypingThenMsg('Your event is locked and loaded! Here\'s the full summary.', 300, 1000);
+    await showTypingThenMsg({
+      type: 'confirm',
+      title: 'Your Event Is Fully Booked!',
+      details: [
+        'Sunday June 15 — clear skies, 26°C',
+        '14 confirmed guests (2 vegetarian)',
+        'Rooftop — directions sent to all guests',
+        'Shopping list: 47 items generated',
+        'Reminders set: 24hr & 1hr before',
+      ]
+    }, 400, 1400);
+    await showTypingThenMsg('You\'re all set! Just show up and enjoy your own party — I\'ll handle any last-minute changes.', 300, 1000);
+    demoState = 4;
+
+  } else {
+    await showTypingThenMsg('Your event is already fully planned! Start a new event anytime by refreshing this demo.', 300, 1000);
+  }
+
+  isTyping = false;
+  demoInput.disabled = false;
+  demoInput.focus();
+}
+
+demoInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') handleDemoSend();
+});
+</script>
+
+</body>
+</html>
