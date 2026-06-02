@@ -443,11 +443,15 @@
     z-index: 2;
     animation: cuteFloat 3.8s ease-in-out infinite, logoPulse 4s ease-in-out infinite;
     filter: drop-shadow(0 20px 50px rgba(255, 0, 85, 0.22));
-    cursor: default;
+    cursor: pointer;
     transition: transform 0.4s var(--animation-bounce);
   }
 
   .hero-mascot-img:hover {
+    filter: drop-shadow(0 24px 56px rgba(255, 0, 85, 0.3));
+  }
+
+  .hero-mascot-img.is-switching {
     animation: mascotHoverSpin 1.65s var(--animation-bounce) both, logoPulse 4s ease-in-out infinite;
   }
 
@@ -1788,9 +1792,11 @@
         <div class="orbit-dot"></div>
         <div class="orbit-dot"></div>
         <div class="orbit-dot"></div>
-        <img src="clearlogobot.png" alt="Plan-Bot — Your Invisible Event Partner"
+        <img src="clearlogobot7.png" alt="Plan-Bot — Your Invisible Event Partner"
              class="hero-mascot-img"
-             id="mascotImg">
+             id="mascotImg"
+             onmouseenter="switchHeroMascot(this)"
+             onclick="switchHeroMascot(this)">
         <div class="mascot-label">YOUR INVISIBLE COMPANION</div>
       </div>
     </div>
@@ -2127,6 +2133,15 @@ feather.replace();
 const chatEl = () => document.getElementById('fullChatMessages');
 const inputEl = () => document.getElementById('fullChatInput');
 const eventDashboardEl = () => document.getElementById('eventDashboard');
+const heroMascotLogos = [
+  'clearlogobot1.png',
+  'clearlogobot2.png',
+  'clearlogobot3.png',
+  'clearlogobot4.png',
+  'clearlogobot5.png',
+  'clearlogobot6.png',
+  'clearlogobot7.png'
+];
 
 // Conversation state machine
 let chatState = 'idle';     // idle → asked_event → weather_shown → invite_prompt → invite_generated → rsvp_live
@@ -2137,6 +2152,33 @@ let confirmedCount = 0;
 let declinedCount = 0;
 let pendingCount = 0;
 let recommendedPlace = null;
+
+function switchHeroMascot(img) {
+  if (!img || img.dataset.switching === 'true') return;
+
+  const currentLogo = img.getAttribute('src');
+  const options = heroMascotLogos.filter(src => src !== currentLogo);
+  const nextLogo = options[Math.floor(Math.random() * options.length)];
+
+  img.dataset.switching = 'true';
+  img.classList.remove('is-switching');
+  void img.offsetWidth;
+
+  const midpointSwitch = () => {
+    img.src = nextLogo;
+  };
+
+  const finishSwitch = event => {
+    if (event.animationName !== 'mascotHoverSpin') return;
+    img.classList.remove('is-switching');
+    img.dataset.switching = 'false';
+    img.removeEventListener('animationend', finishSwitch);
+  };
+
+  img.addEventListener('animationend', finishSwitch);
+  img.classList.add('is-switching');
+  setTimeout(midpointSwitch, 720);
+}
 
 // Parse rough guest count from text
 function parseGuests(text) {
