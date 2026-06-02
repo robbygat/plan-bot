@@ -1777,15 +1777,20 @@
     nav { padding: 16px 20px; }
     .nav-links { display: none; }
     .nav-logo-text { font-size: 20px; }
-    .hero { padding: 100px 20px 60px; }
-    .hero-inner { grid-template-columns: 1fr; gap: 32px; }
-    .hero-headline { font-size: 36px; }
-    .hero-sub { font-size: 16px; }
-    .hero-actions { flex-direction: column; width: 100%; }
-    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-    .hero-trust { margin-top: 32px; }
-    .platform-chips { justify-content: center; }
-    .platform-chip { font-size: 12px; padding: 7px 14px; }
+    .hero { min-height: auto; padding: 88px 18px 44px; align-items: flex-start; }
+    .hero::before { width: 360px; height: 360px; top: -140px; right: -180px; }
+    .hero::after { width: 300px; height: 300px; bottom: -120px; left: -160px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 22px; text-align: center; }
+    .hero-left { align-items: center; }
+    .hero-headline { font-size: clamp(31px, 10vw, 38px); line-height: 1.03; margin-bottom: 14px; max-width: 360px; }
+    .hero-sub { font-size: 14.5px; line-height: 1.55; margin-bottom: 24px; max-width: 340px; }
+    .hero-actions { flex-direction: column; width: 100%; gap: 10px; }
+    .btn-primary, .btn-secondary { width: min(100%, 320px); justify-content: center; padding: 13px 22px; }
+    .hero-trust { margin-top: 8px; }
+    .hero-trust p { font-size: 10px; margin-bottom: 10px; }
+    .platform-chips { justify-content: center; gap: 7px; max-width: 340px; margin: 0 auto; }
+    .platform-chip { font-size: 11px; padding: 6px 10px; gap: 5px; }
+    .platform-chip .feather { width: 12px; height: 12px; }
     .section, .platforms-section, .interactive-demo-section, .coming-soon-section, .pricing-section, .cta-section { padding: 60px 20px; }
     .section-title { font-size: 32px; }
     .section-sub { font-size: 16px; }
@@ -1796,8 +1801,12 @@
     footer { padding: 40px 20px 30px; }
     .footer-top { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-    .hero-mascot-circle { width: 280px; height: 280px; }
-    .hero-mascot-img { width: 210px; height: 210px; }
+    .hero-mascot-circle { width: 230px; height: 230px; }
+    .hero-mascot-img { width: 176px; height: 176px; }
+    .mascot-ring-outer { inset: -10px; }
+    .mascot-glow-bg { inset: 20px; }
+    .mascot-label { bottom: 2px; font-size: 9px; padding: 4px 12px; }
+    .orbit-dot { width: 7px; height: 7px; }
     .full-chat-frame { width: min(100%, 360px); height: 700px; border-width: 6px; border-radius: 42px; }
     .full-chat-header { padding: 40px 16px 14px; }
     .full-chat-messages { min-height: 0; max-height: none; padding: 16px 14px; }
@@ -1815,6 +1824,16 @@
     .decor-logo { width: 54px; height: 54px; opacity: 0.05; }
     .decor-logo:nth-child(n+13) { display: none; }
     .site-logo-decor[data-expanded="true"] .decor-logo:nth-child(n+13) { display: none; }
+  }
+
+  @media (max-width: 380px) {
+    .hero { padding: 80px 14px 36px; }
+    .hero-inner { gap: 18px; }
+    .hero-headline { font-size: 30px; }
+    .hero-sub { font-size: 13.5px; margin-bottom: 20px; }
+    .hero-mascot-circle { width: 202px; height: 202px; }
+    .hero-mascot-img { width: 154px; height: 154px; }
+    .platform-chip { font-size: 10.5px; padding: 5px 8px; }
   }
 </style>
 </head>
