@@ -1814,11 +1814,40 @@
     .sugg-chip { font-size: 12px; padding: 7px 14px; }
     .full-chat-input-row { padding: 12px 12px 26px; }
     .event-dashboard { max-height: 154px; padding: 10px 12px 24px; }
-    .proof-strip { padding: 14px 12px; gap: 0; flex-direction: row; justify-content: space-between; }
-    .proof-item { flex: 1; flex-direction: column; gap: 4px; text-align: center; min-width: 0; }
-    .proof-number { font-size: 19px; line-height: 1; }
-    .proof-label { font-size: 10px; line-height: 1.15; }
-    .proof-divider { display: block; height: 34px; margin: 0 8px; flex: 0 0 1px; }
+    .proof-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      padding: 10px;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .proof-item {
+      min-width: 0;
+      min-height: 72px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px 6px;
+      text-align: center;
+      white-space: normal;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 16px;
+    }
+    .proof-number {
+      display: block;
+      font-size: 21px;
+      line-height: 0.95;
+      letter-spacing: -0.4px;
+    }
+    .proof-item:first-child .proof-number {
+      font-size: 15px;
+      line-height: 1.05;
+      max-width: 72px;
+      margin: 0 auto;
+    }
+    .proof-label { font-size: 10px; line-height: 1.12; }
+    .proof-divider { display: none; }
     .proof-logo-cycle { padding: 26px 0; min-height: 180px; }
     .proof-logo-track { --proof-logo-gap: 24px; --proof-logo-loop-distance: 1064px; gap: var(--proof-logo-gap); animation-duration: 28s; padding-left: 24px; }
     .proof-logo-item { width: 128px; height: 128px; border-radius: 32px; }
@@ -1836,10 +1865,11 @@
     .hero-mascot-circle { width: 202px; height: 202px; }
     .hero-mascot-img { width: 154px; height: 154px; }
     .platform-chip { font-size: 10.5px; padding: 5px 8px; }
-    .proof-strip { padding: 12px 8px; }
-    .proof-number { font-size: 17px; }
-    .proof-label { font-size: 9px; }
-    .proof-divider { margin: 0 5px; }
+    .proof-strip { padding: 8px; gap: 6px; }
+    .proof-item { min-height: 66px; padding: 8px 4px; border-radius: 14px; }
+    .proof-number { font-size: 19px; }
+    .proof-item:first-child .proof-number { font-size: 13px; max-width: 58px; }
+    .proof-label { font-size: 8.5px; }
   }
 </style>
 </head>
