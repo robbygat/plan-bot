@@ -31,9 +31,23 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+  html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
   .feather { width: 20px; height: 20px; stroke-width: 2.5; }
+
+  .btn-primary, .btn-secondary, .nav-cta, .cta-btn, .btn-plan, .sugg-chip,
+  .step-card, .feature-card, .plat-card, .price-card, video {
+    will-change: transform;
+  }
+
+  video {
+    transition: transform 0.45s var(--animation-bounce), box-shadow 0.45s;
+  }
+
+  video:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 26px 70px rgba(255, 0, 85, 0.2) !important;
+  }
 
   /* ───────────── NAV ───────────── */
   nav {
@@ -94,7 +108,7 @@
   }
 
   .nav-cta:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.03);
     box-shadow: 0 8px 30px rgba(255,0,85,0.4) !important;
     color: var(--white) !important;
   }
@@ -251,7 +265,7 @@
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.03);
     box-shadow: 0 14px 40px rgba(255,0,85,0.45);
     background: var(--magenta);
   }
@@ -265,10 +279,10 @@
     align-items: center;
     gap: 8px;
     padding: 16px 8px;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.25s var(--animation-bounce);
   }
 
-  .btn-secondary:hover { color: var(--hot-pink); }
+  .btn-secondary:hover { color: var(--hot-pink); transform: translateX(3px); }
 
   .platform-chips {
     display: flex;
@@ -289,8 +303,14 @@
     font-weight: 500;
     color: var(--text-mid);
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.25s var(--animation-bounce), box-shadow 0.25s, border-color 0.25s;
   }
   .platform-chip .feather { width: 14px; height: 14px; color: var(--hot-pink); }
+  .platform-chip:hover {
+    transform: translateY(-3px) rotate(-1deg);
+    border-color: rgba(255,0,85,0.3);
+    box-shadow: 0 10px 24px rgba(255,0,85,0.12);
+  }
 
   /* ───────────── HERO MASCOT WITH CIRCLE ───────────── */
   .hero-mascot-wrap {
@@ -367,8 +387,12 @@
     z-index: 2;
     animation: cuteFloat 3.8s ease-in-out infinite, logoPulse 4s ease-in-out infinite;
     filter: drop-shadow(0 20px 50px rgba(255, 0, 85, 0.22));
-    cursor: pointer;
+    cursor: default;
     transition: transform 0.4s var(--animation-bounce);
+  }
+
+  .hero-mascot-img:hover {
+    animation: mascotHoverSpin 1.65s var(--animation-bounce) both, logoPulse 4s ease-in-out infinite;
   }
 
   .mascot-label {
@@ -405,6 +429,13 @@
   @keyframes orbitGlow {
     0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
     50% { opacity: 0.9; transform: translateX(-50%) scale(1.4); }
+  }
+
+  @keyframes mascotHoverSpin {
+    0% { transform: scale(1) rotate(0deg); }
+    35% { transform: scale(1.12) rotate(12deg); }
+    70% { transform: scale(1.08) rotate(345deg); }
+    100% { transform: scale(1.1) rotate(360deg); }
   }
 
   /* ───────────── PROOF STRIP ───────────── */
@@ -500,8 +531,12 @@
 
   .step-card:hover {
     border-color: var(--hot-pink);
-    transform: translateY(-4px);
+    transform: translateY(-7px) rotate(-0.6deg);
     box-shadow: 0 20px 50px rgba(255,0,85,0.1);
+  }
+
+  .step-card:hover .step-icon {
+    animation: cuteWiggle 0.75s var(--animation-bounce);
   }
 
   .step-number {
@@ -545,16 +580,29 @@
     background: linear-gradient(160deg, var(--super-pale) 0%, white 100%);
   }
 
+  #features {
+    padding: 72px 48px;
+  }
+
+  #features .section-title {
+    font-size: clamp(30px, 3.5vw, 44px);
+  }
+
+  #features .section-sub {
+    max-width: 520px;
+    margin-bottom: 36px;
+  }
+
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    gap: 18px;
   }
 
   .feature-card {
     background: white;
-    border-radius: 24px;
-    padding: 36px 32px;
+    border-radius: 20px;
+    padding: 24px 22px;
     border: 1.5px solid rgba(255,0,85,0.08);
     transition: all 0.3s;
     position: relative;
@@ -574,33 +622,37 @@
 
   .feature-card:hover::before { transform: scaleX(1); }
   .feature-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-7px) rotate(0.5deg);
     box-shadow: 0 20px 50px rgba(255,0,85,0.08);
     border-color: rgba(255,0,85,0.2);
   }
 
+  .feature-card:hover .feature-icon-wrap {
+    animation: cuteWiggle 0.75s var(--animation-bounce);
+  }
+
   .feature-icon-wrap {
-    width: 60px; height: 60px;
-    border-radius: 18px;
+    width: 46px; height: 46px;
+    border-radius: 14px;
     background: var(--super-pale);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--hot-pink);
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     border: 1.5px solid rgba(255,0,85,0.1);
   }
-  .feature-icon-wrap .feather { width: 28px; height: 28px; }
+  .feature-icon-wrap .feather { width: 22px; height: 22px; }
 
   .feature-name {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--text-dark);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
-  .feature-desc { font-size: 14px; line-height: 1.7; color: var(--text-mid); }
+  .feature-desc { font-size: 13px; line-height: 1.55; color: var(--text-mid); }
 
   .feature-tag {
     display: inline-block;
@@ -610,33 +662,33 @@
     padding: 3px 10px;
     font-size: 11px;
     font-weight: 600;
-    margin-top: 16px;
+    margin-top: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   /* ───────────── PLATFORMS ───────────── */
-  .platforms-section { padding: 100px 48px; background: white; }
+  .platforms-section { padding: 72px 48px; background: white; }
 
   .platforms-inner {
     max-width: 1280px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 48px;
     align-items: center;
   }
 
   .platform-cards {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 12px;
   }
 
   .plat-card {
     background: var(--soft-gray);
-    border-radius: 20px;
-    padding: 24px 20px;
+    border-radius: 18px;
+    padding: 16px 18px;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -648,17 +700,21 @@
     background: white;
     border-color: rgba(255,0,85,0.2);
     box-shadow: 0 8px 24px rgba(255,0,85,0.08);
-    transform: translateY(-2px);
+    transform: translateY(-5px) rotate(-0.4deg);
+  }
+
+  .plat-card:hover .plat-icon {
+    animation: cuteWiggle 0.75s var(--animation-bounce);
   }
 
   .plat-icon {
-    width: 48px; height: 48px;
+    width: 40px; height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
     color: var(--text-dark);
-    border-radius: 14px;
+    border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     flex-shrink: 0;
   }
@@ -702,9 +758,13 @@
   }
 
   .price-card:not(.featured):hover {
-    transform: translateY(-4px);
+    transform: translateY(-7px) rotate(0.4deg);
     box-shadow: 0 20px 50px rgba(255,0,85,0.08);
     border-color: rgba(255,0,85,0.2);
+  }
+
+  .price-card.featured:hover {
+    transform: scale(1.06) translateY(-4px);
   }
 
   .price-badge {
@@ -804,8 +864,8 @@
 
   /* ───────────── INTERACTIVE DEMO AT BOTTOM ───────────── */
   .interactive-demo-section {
-    background: white;
-    padding: 100px 48px;
+    background: linear-gradient(160deg, white 0%, var(--super-pale) 100%);
+    padding: 90px 48px;
     position: relative;
     overflow: hidden;
   }
@@ -813,73 +873,113 @@
   .interactive-demo-section::before {
     content: '';
     position: absolute;
-    top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(255,0,85,0.04) 0%, transparent 70%);
+    top: -220px; right: -180px;
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(255,0,85,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
 
   .interactive-demo-inner {
-    max-width: 900px;
+    max-width: 720px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
   }
 
-  /* Full-size interactive chat */
+  /* Phone-shaped interactive chat */
   .full-chat-frame {
-    background: white;
-    border-radius: 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 390px);
+    height: 760px;
+    background: linear-gradient(160deg, #1A0A0F 0%, #3a1020 100%);
+    border: 8px solid #1A0A0F;
+    border-radius: 48px;
     overflow: hidden;
-    box-shadow: 0 30px 80px rgba(26,10,15,0.1), 0 0 0 1px rgba(255,0,85,0.1);
-    margin-top: 48px;
+    min-width: 0;
+    box-shadow: 0 32px 90px rgba(255,0,85,0.18), 0 18px 50px rgba(26,10,15,0.16);
+    margin: 42px auto 0;
+  }
+
+  .full-chat-frame::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    width: 112px;
+    height: 24px;
+    transform: translateX(-50%);
+    background: #1A0A0F;
+    border-radius: 0 0 18px 18px;
+    z-index: 5;
+  }
+
+  .full-chat-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: 118px;
+    height: 4px;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.55);
+    border-radius: 50px;
+    z-index: 5;
   }
 
   .full-chat-header {
-    background: #FF0055;
-    padding: 20px 26px;
+    background: linear-gradient(180deg, #ffffff 0%, #fff7fb 100%);
+    padding: 44px 18px 16px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,0,85,0.1);
   }
 
   .full-chat-avatar {
-    width: 46px; height: 46px;
-    border-radius: 14px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
     overflow: hidden;
-    background: rgba(255,255,255,0.2);
+    background: var(--super-pale);
     flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(255,0,85,0.16);
+    box-shadow: 0 4px 14px rgba(255,0,85,0.12);
   }
   .full-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
   .full-chat-name {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: 17px;
-    color: #ffffff;
+    font-size: 16px;
+    color: var(--text-dark);
   }
-  .full-chat-sub { font-size: 12px; color: rgba(255,255,255,0.85); margin-top: 1px; }
+  .full-chat-sub { font-size: 11px; color: var(--text-mid); margin-top: 1px; }
 
   .live-badge {
     margin-left: auto;
-    background: rgba(255,255,255,0.25);
-    color: #ffffff;
+    background: rgba(34,197,94,0.1);
+    color: #15803d;
     font-size: 10px;
     font-weight: 700;
     padding: 3px 12px;
     border-radius: 50px;
     letter-spacing: 0.5px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(34,197,94,0.22);
   }
 
   .full-chat-messages {
-    background: #FF0055;
-    padding: 28px;
+    background:
+      radial-gradient(circle at top right, rgba(255,0,85,0.08), transparent 42%),
+      linear-gradient(180deg, #fff7fb 0%, #fff0f5 100%);
+    padding: 18px 16px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    min-height: 400px;
-    max-height: 480px;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
   }
 
@@ -896,24 +996,26 @@
   }
 
   .fchat-bubble {
-    padding: 12px 16px;
+    padding: 11px 14px;
     border-radius: 20px;
-    font-size: 14.5px;
+    font-size: 13px;
     line-height: 1.55;
   }
 
   .fchat-msg.user .fchat-bubble {
-    background: linear-gradient(160deg, #FFF0F5 0%, white 100%);
-    color: var(--text-dark);
+    background: linear-gradient(160deg, var(--hot-pink) 0%, var(--light-pink) 100%);
+    color: white;
     border-bottom-right-radius: 5px;
-    border: 1px solid rgba(255,0,85,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 20px rgba(255,0,85,0.16);
   }
 
   .fchat-msg.bot .fchat-bubble {
     background: white;
     color: var(--text-dark);
     border-bottom-left-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 16px rgba(255,0,85,0.08);
+    border: 1px solid rgba(255,0,85,0.08);
   }
 
   .fchat-time {
@@ -922,17 +1024,104 @@
     margin-top: 4px;
     padding: 0 5px;
   }
-  .fchat-msg.user .fchat-time { text-align: right; color: var(--text-mid); }
-  .fchat-msg.bot .fchat-time { color: var(--text-dark); }
+  .fchat-msg.user .fchat-time { text-align: right; color: var(--text-light); }
+  .fchat-msg.bot .fchat-time { color: var(--text-light); }
 
   /* Rich cards inside chat */
   .fchat-card {
     background: white;
     border-radius: 16px;
-    padding: 14px;
+    padding: 12px;
     margin-top: 8px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 16px rgba(255,0,85,0.08);
     border: 1.5px solid rgba(255,0,85,0.12);
+  }
+
+  .fchat-map-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  .fchat-map-embed {
+    width: calc(100% + 24px);
+    height: 145px;
+    margin: -12px -12px 12px;
+    border: 0;
+    display: block;
+    background: var(--super-pale);
+  }
+
+  .fchat-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    color: var(--hot-pink);
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .fchat-place-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-mid);
+  }
+
+  .fchat-place-badge {
+    background: rgba(34,197,94,0.1);
+    color: #15803d;
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .fchat-action-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .fchat-action-btn {
+    border: 1.5px solid rgba(255,0,85,0.16);
+    border-radius: 999px;
+    padding: 9px 13px;
+    background: white;
+    color: var(--hot-pink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s var(--animation-bounce), box-shadow 0.2s, background 0.2s;
+  }
+
+  .fchat-action-btn.primary {
+    background: linear-gradient(160deg, var(--hot-pink), var(--light-pink));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(255,0,85,0.2);
+  }
+
+  .fchat-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255,0,85,0.14);
+  }
+
+  .fchat-invite-img {
+    display: block;
+    width: 100%;
+    border-radius: 14px;
+    margin: 10px 0 12px;
+    border: 1px solid rgba(255,0,85,0.12);
+    background: var(--super-pale);
   }
 
   .fchat-rsvp-grid {
@@ -958,46 +1147,48 @@
 
   .fchat-typing {
     display: flex;
-    gap: 5px;
-    padding: 12px 16px;
+    gap: 10px;
+    padding: 10px 14px;
     background: white;
     border-radius: 20px;
     border-bottom-left-radius: 5px;
     width: fit-content;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 16px rgba(255,0,85,0.08);
     align-self: flex-start;
+    align-items: center;
+    border: 1px solid rgba(255,0,85,0.08);
   }
 
-  .fchat-typing-dot {
-    width: 7px; height: 7px;
-    background: var(--pale-pink);
+  .fchat-typing-logo {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    animation: typingBounce 1.2s infinite;
+    object-fit: cover;
+    animation: cuteSpin 1s linear infinite;
   }
-  .fchat-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .fchat-typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes typingBounce {
-    0%, 60%, 100% { transform: translateY(0); background: var(--pale-pink); }
-    30% { transform: translateY(-6px); background: var(--hot-pink); }
-  }
+  .fchat-typing-text { font-size: 12px; font-weight: 700; color: var(--text-mid); letter-spacing: 0.2px; }
 
   /* Suggestion chips */
   .suggestions-row {
-    padding: 16px 28px;
-    background: white;
-    border-top: 1px solid rgba(255,0,85,0.06);
+    padding: 12px 14px;
+    background: #fff7fb;
+    border-top: 1px solid rgba(255,0,85,0.08);
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
   }
 
+  .suggestions-row::-webkit-scrollbar { display: none; }
+
   .sugg-chip {
-    background: rgba(255,0,85,0.04);
+    background: white;
     border: 1.5px solid rgba(255,0,85,0.15);
     border-radius: 50px;
-    padding: 8px 16px;
-    font-size: 13px;
+    padding: 8px 12px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--hot-pink);
     cursor: pointer;
@@ -1012,32 +1203,33 @@
   }
 
   .full-chat-input-row {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 16px 22px;
+    background: white;
+    padding: 12px 14px;
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
-    border-top: 1px solid rgba(255,0,85,0.2);
+    border-top: 1px solid rgba(255,0,85,0.08);
   }
 
   .full-chat-input {
     flex: 1;
-    background: #2d2d2d;
-    border: 1.5px solid rgba(255,0,85,0.3);
+    min-width: 0;
+    background: var(--super-pale);
+    border: 1.5px solid rgba(255,0,85,0.15);
     border-radius: 50px;
-    padding: 13px 20px;
+    padding: 12px 16px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     outline: none;
-    color: #ffffff;
-    transition: border-color 0.2s;
+    color: var(--text-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .full-chat-input:focus { border-color: var(--hot-pink); }
-  .full-chat-input::placeholder { color: rgba(255,255,255,0.4); }
+  .full-chat-input:focus { border-color: var(--hot-pink); box-shadow: 0 0 0 3px rgba(255,0,85,0.08); }
+  .full-chat-input::placeholder { color: var(--text-light); }
 
   .full-chat-send {
-    width: 46px; height: 46px;
-    background: var(--hot-pink);
+    width: 42px; height: 42px;
+    background: linear-gradient(160deg, var(--hot-pink), var(--light-pink));
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -1050,6 +1242,105 @@
   }
   .full-chat-send:hover { transform: scale(1.1); box-shadow: 0 6px 22px rgba(255,0,85,0.5); }
   .full-chat-send .feather { color: white; width: 19px; height: 19px; }
+
+  .event-dashboard {
+    background: white;
+    border-top: 1px solid rgba(255,0,85,0.08);
+    padding: 10px 14px 26px;
+    flex-shrink: 0;
+    max-height: 178px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .event-dashboard::-webkit-scrollbar { width: 3px; }
+  .event-dashboard::-webkit-scrollbar-thumb { background: var(--pale-pink); border-radius: 999px; }
+
+  .event-dashboard-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+
+  .event-dashboard-tabs::-webkit-scrollbar { display: none; }
+
+  .event-dash-pill {
+    border: 1px solid rgba(22,163,74,0.28);
+    color: #15803d;
+    background: rgba(34,197,94,0.06);
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .event-dash-pill.ready {
+    color: var(--hot-pink);
+    background: rgba(255,0,85,0.08);
+    border-color: rgba(255,0,85,0.18);
+  }
+
+  .event-dash-close {
+    margin-left: auto;
+    color: var(--hot-pink);
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .event-dashboard-label {
+    color: var(--text-dark);
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .event-dashboard-title {
+    color: var(--text-dark);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.35;
+    margin-bottom: 9px;
+  }
+
+  .event-dashboard-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .event-dashboard-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-mid);
+    min-width: 0;
+  }
+
+  .event-dashboard-row a {
+    color: var(--hot-pink);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .event-dashboard-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d97706;
+    flex-shrink: 0;
+  }
+
+  .event-dashboard-status {
+    margin-left: auto;
+    color: var(--text-light);
+    font-size: 10px;
+  }
 
   /* ───────────── CTA ───────────── */
   .cta-section {
@@ -1131,6 +1422,7 @@
     background: var(--text-dark);
     padding: 60px 48px 40px;
     color: rgba(255,255,255,0.7);
+    margin-top: auto;
   }
 
   .footer-inner { max-width: 1280px; margin: 0 auto; }
@@ -1196,6 +1488,21 @@
     to   { transform: rotate(360deg); }
   }
 
+  @keyframes cuteWiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    35% { transform: rotate(-8deg) scale(1.1); }
+    70% { transform: rotate(6deg) scale(1.04); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
   /* ───────────── SCROLLBAR ───────────── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -1241,10 +1548,13 @@
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
     .hero-mascot-circle { width: 280px; height: 280px; }
     .hero-mascot-img { width: 210px; height: 210px; }
-    .full-chat-messages { min-height: 300px; max-height: 360px; padding: 18px; }
-    .suggestions-row { padding: 12px 16px; gap: 8px; }
+    .full-chat-frame { width: min(100%, 360px); height: 700px; border-width: 6px; border-radius: 42px; }
+    .full-chat-header { padding: 40px 16px 14px; }
+    .full-chat-messages { min-height: 0; max-height: none; padding: 16px 14px; }
+    .suggestions-row { padding: 10px 12px; gap: 8px; }
     .sugg-chip { font-size: 12px; padding: 7px 14px; }
-    .full-chat-input-row { padding: 12px 16px; }
+    .full-chat-input-row { padding: 12px 12px 26px; }
+    .event-dashboard { max-height: 154px; padding: 10px 12px 24px; }
     .proof-strip { padding: 16px 20px; gap: 20px; flex-direction: column; }
     .proof-item { flex-direction: column; text-align: center; }
     .proof-divider { display: none; }
@@ -1303,9 +1613,8 @@
         <div class="orbit-dot"></div>
         <img src="clearlogobot.png" alt="Plan Bot — Your Invisible Event Partner"
              class="hero-mascot-img"
-             id="mascotImg"
-             onclick="mascotClick(this)">
-        <div class="mascot-label">YOUR INVISIBLE CO-HOST</div>
+             id="mascotImg">
+        <div class="mascot-label">YOUR INVISIBLE COMPANION</div>
       </div>
     </div>
 
@@ -1348,7 +1657,7 @@
     <p class="section-sub">Just describe what you want. Plan Bot handles everything else, invisibly, behind the scenes.</p>
 
     <div style="margin-top: 40px; text-align: center;">
-      <video src="logobot.mp4" autoplay loop muted playsinline style="width: 100%; max-width: 900px; border-radius: 24px; box-shadow: 0 20px 60px rgba(255, 0, 85, 0.15); border: 2px solid rgba(255,0,85,0.1);"></video>
+      <video src="logobot.mp4" autoplay loop muted playsinline preload="auto" style="width: 100%; max-width: 900px; border-radius: 24px; box-shadow: 0 20px 60px rgba(255, 0, 85, 0.15); border: 2px solid rgba(255,0,85,0.1);"></video>
     </div>
 
     <div class="steps-grid">
@@ -1380,66 +1689,113 @@
   </div>
 </section>
 
+<!-- ── LIVE INTERACTIVE DEMO (full-size, truly interactive) ── -->
+<section class="interactive-demo-section" id="live-demo">
+  <div class="interactive-demo-inner">
+    <div style="text-align: center; margin-bottom: 0;">
+      <div class="section-eyebrow">Live Demo</div>
+      <h2 class="section-title" style="max-width: 600px; margin: 0 auto 16px;">Chat with Plan Bot right now</h2>
+      <p style="color: var(--text-mid); font-size: 16px; line-height: 1.6; max-width: 500px; margin: 0 auto;">Type your event idea below — or tap a suggestion — and watch Plan Bot plan a real event live. Weather checks, RSVPs, shopping lists and all.</p>
+    </div>
+
+    <div class="full-chat-frame">
+      <!-- Header -->
+      <div class="full-chat-header">
+        <div class="full-chat-avatar">
+          <img src="clearlogobot.png" alt="Plan Bot">
+        </div>
+        <div>
+          <div class="full-chat-name">Plan Bot</div>
+          <div class="full-chat-sub">● Online · Your invisible companion</div>
+        </div>
+        <div class="live-badge">LIVE</div>
+      </div>
+
+      <!-- Messages -->
+      <div class="full-chat-messages" id="fullChatMessages"></div>
+
+      <!-- Suggestion chips -->
+      <div class="suggestions-row" id="suggestionRow">
+        <button class="sugg-chip" onclick="sendSuggestion('Dinner for 8 next Saturday at my place')">🍽️ Dinner for 8 this Saturday</button>
+        <button class="sugg-chip" onclick="sendSuggestion('Birthday party for 20, rooftop venue')">🎂 Rooftop birthday party</button>
+        <button class="sugg-chip" onclick="sendSuggestion('Wine tasting night for 12 friends this Friday')">🍷 Wine tasting for 12</button>
+        <button class="sugg-chip" onclick="sendSuggestion('Weekend BBQ at my house, about 15 people')">🔥 Weekend BBQ</button>
+      </div>
+
+      <!-- Input -->
+      <div class="full-chat-input-row">
+        <input class="full-chat-input" id="fullChatInput" type="text"
+               placeholder="Describe your event — I'll handle the rest..."
+               onkeydown="if(event.key==='Enter') fullChatSend()">
+        <button class="full-chat-send" onclick="fullChatSend()">
+          <i data-feather="send"></i>
+        </button>
+      </div>
+      <div class="event-dashboard" id="eventDashboard">
+        <div class="event-dashboard-tabs">
+          <span class="event-dash-pill">✓ Blueprint</span>
+          <span class="event-dash-pill">✓ Date</span>
+          <span class="event-dash-pill">✓ Guests</span>
+          <span class="event-dash-pill">✓ RSVP</span>
+          <span class="event-dash-pill ready" id="eventReadyPill">Draft</span>
+          <span class="event-dash-close">Close</span>
+        </div>
+        <div class="event-dashboard-label">Event overview</div>
+        <div class="event-dashboard-title" id="eventSummaryTitle">Describe your event to start your blueprint.</div>
+        <div class="event-dashboard-list" id="eventSummaryList">
+          <div class="event-dashboard-row">
+            <span class="event-dashboard-dot"></span>
+            <span>Guest list appears here</span>
+            <span class="event-dashboard-status">Waiting</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── FEATURES ── -->
 <section class="section features-bg" id="features">
   <div class="section-inner">
     <div class="section-eyebrow">Features</div>
-    <h2 class="section-title">Everything a brilliant<br>event planner would do</h2>
-    <p class="section-sub">Ten layers of intelligence, all running silently so you never have to think about them.</p>
+    <h2 class="section-title">Your secret<br>planning weapon</h2>
+    <p class="section-sub">All the helpful planning magic, shortened to the essentials.</p>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="cloud-drizzle"></i></div>
-        <div class="feature-name">Live Weather Intelligence</div>
-        <p class="feature-desc">Plan Bot monitors real-time and 10-day forecasts for your event location. If rain threatens, it automatically suggests alternative dates or indoor backup options.</p>
-        <span class="feature-tag">Weather API</span>
+        <div class="feature-name">Weather checks</div>
+        <p class="feature-desc">Spots rain early and suggests a smarter date or backup plan.</p>
+        <span class="feature-tag">Forecasts</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="calendar"></i></div>
-        <div class="feature-name">Multi-Calendar Scheduling</div>
-        <p class="feature-desc">Connects to guests' Google, Apple, and Outlook calendars to find the perfect overlap. Plan Bot finds the date that works for the most people automatically.</p>
-        <span class="feature-tag">Calendar Sync</span>
+        <div class="feature-name">Best-time picks</div>
+        <p class="feature-desc">Finds the date and time most people can actually make.</p>
+        <span class="feature-tag">Scheduling</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="mail"></i></div>
-        <div class="feature-name">Personalized Invitations</div>
-        <p class="feature-desc">Each guest receives a beautiful, personalized invitation in their language and through their preferred channel. RSVP with a single tap, no account needed.</p>
-        <span class="feature-tag">Multi-channel</span>
+        <div class="feature-name">Easy invites</div>
+        <p class="feature-desc">Sends friendly invites through the apps your guests already use.</p>
+        <span class="feature-tag">No app</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="check-circle"></i></div>
-        <div class="feature-name">Smart RSVP Tracking</div>
-        <p class="feature-desc">Real-time dashboard showing who's confirmed, declined, or hasn't responded. Automatic follow-up nudges sent at the right time without you lifting a finger.</p>
-        <span class="feature-tag">Automated</span>
+        <div class="feature-name">RSVP tracking</div>
+        <p class="feature-desc">Shows who is in, out, or needs a gentle reminder.</p>
+        <span class="feature-tag">Live status</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="shopping-cart"></i></div>
-        <div class="feature-name">Dynamic Shopping Lists</div>
-        <p class="feature-desc">Based on your menu and confirmed guest count (including dietary restrictions), Plan Bot generates a precise shopping list, estimates costs, and suggests local stores.</p>
-        <span class="feature-tag">Smart Lists</span>
+        <div class="feature-name">Shopping lists</div>
+        <p class="feature-desc">Turns RSVPs and menu ideas into a simple buy list.</p>
+        <span class="feature-tag">Host prep</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="eye-off"></i></div>
-        <div class="feature-name">Invisible Branding</div>
-        <p class="feature-desc">Plan Bot subtly signs its messages, turning every guest into a potential new user. Your reputation as an effortlessly organized host grows — while Plan Bot quietly works.</p>
-        <span class="feature-tag">Viral Growth</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon-wrap"><i data-feather="map-pin"></i></div>
-        <div class="feature-name">Location &amp; Logistics</div>
-        <p class="feature-desc">Drop a venue or let Plan Bot suggest options. It attaches maps, parking info, transit directions, and estimated travel times — all personalized for each guest.</p>
-        <span class="feature-tag">Directions API</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon-wrap"><i data-feather="coffee"></i></div>
-        <div class="feature-name">Dietary Matching</div>
-        <p class="feature-desc">Guests share dietary needs on RSVP. Plan Bot compiles them, generates a menu that works for everyone, and adds the right ingredients to your shopping list.</p>
-        <span class="feature-tag">Personalization</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon-wrap"><i data-feather="bell"></i></div>
-        <div class="feature-name">Automated Reminders</div>
-        <p class="feature-desc">Smart reminders at 1 week, 24 hours, and 1 hour before the event. Plan Bot knows when to nudge and when to leave people alone.</p>
-        <span class="feature-tag">Smart Timing</span>
+        <div class="feature-name">Quietly invisible</div>
+        <p class="feature-desc">You look effortlessly organized. Plan Bot stays behind the curtain.</p>
+        <span class="feature-tag">Secret weapon</span>
       </div>
     </div>
   </div>
@@ -1450,8 +1806,8 @@
   <div class="platforms-inner">
     <div>
       <div class="section-eyebrow">No App Required</div>
-      <h2 class="section-title">Meet guests<br>where they are</h2>
-      <p class="section-sub" style="margin-bottom:0">Plan Bot lives inside the apps your guests already have. Zero friction. Zero barriers. 100% engagement.</p>
+      <h2 class="section-title">Guests never need<br>to download anything!</h2>
+      <p class="section-sub" style="margin-bottom:0">They just reply in WhatsApp, LINE, SMS, or email. Plan Bot is your secret planning weapon, not another app your friends have to install.</p>
     </div>
     <div class="platform-cards">
       <div class="plat-card">
@@ -1540,52 +1896,6 @@
   </div>
 </section>
 
-<!-- ── LIVE INTERACTIVE DEMO (full-size, truly interactive) ── -->
-<section class="interactive-demo-section" id="live-demo">
-  <div class="interactive-demo-inner">
-    <div style="text-align: center; margin-bottom: 0;">
-      <div class="section-eyebrow">Live Demo</div>
-      <h2 class="section-title" style="max-width: 600px; margin: 0 auto 16px;">Chat with Plan Bot right now</h2>
-      <p style="color: var(--text-mid); font-size: 16px; line-height: 1.6; max-width: 500px; margin: 0 auto;">Type your event idea below — or tap a suggestion — and watch Plan Bot plan a real event live. Weather checks, RSVPs, shopping lists and all.</p>
-    </div>
-
-    <div class="full-chat-frame">
-      <!-- Header -->
-      <div class="full-chat-header">
-        <div class="full-chat-avatar">
-          <img src="clearlogobot.png" alt="Plan Bot">
-        </div>
-        <div>
-          <div class="full-chat-name">Plan Bot</div>
-          <div class="full-chat-sub">● Online · Your invisible co-host</div>
-        </div>
-        <div class="live-badge">LIVE</div>
-      </div>
-
-      <!-- Messages -->
-      <div class="full-chat-messages" id="fullChatMessages"></div>
-
-      <!-- Suggestion chips -->
-      <div class="suggestions-row" id="suggestionRow">
-        <button class="sugg-chip" onclick="sendSuggestion('Dinner for 8 next Saturday at my place')">🍽️ Dinner for 8 this Saturday</button>
-        <button class="sugg-chip" onclick="sendSuggestion('Birthday party for 20, rooftop venue')">🎂 Rooftop birthday party</button>
-        <button class="sugg-chip" onclick="sendSuggestion('Wine tasting night for 12 friends this Friday')">🍷 Wine tasting for 12</button>
-        <button class="sugg-chip" onclick="sendSuggestion('Weekend BBQ at my house, about 15 people')">🔥 Weekend BBQ</button>
-      </div>
-
-      <!-- Input -->
-      <div class="full-chat-input-row">
-        <input class="full-chat-input" id="fullChatInput" type="text"
-               placeholder="Describe your event — I'll handle the rest..."
-               onkeydown="if(event.key==='Enter') fullChatSend()">
-        <button class="full-chat-send" onclick="fullChatSend()">
-          <i data-feather="send"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── CTA ── -->
 <section class="cta-section">
   <div class="cta-inner">
@@ -1607,37 +1917,46 @@
 // ── Init icons ──
 feather.replace();
 
-// ── Mascot click easter egg ──
-function mascotClick(el) {
-  el.style.transform = 'rotate(15deg) scale(0.92)';
-  setTimeout(() => { el.style.transform = ''; }, 500);
-  const bubble = document.createElement('div');
-  bubble.style.cssText = 'position:absolute; top:-52px; left:50%; transform:translateX(-50%); background:white; padding:9px 18px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); font-size:13px; font-weight:700; color:#1A0A0F; white-space:nowrap; z-index:20; pointer-events:none;';
-  const msgs = ["Let's plan something perfect! ✨", "I handle the details 🎉", "No friction. Just magic! 🪄", "Your next event is going to be great 💫"];
-  bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-  el.parentNode.appendChild(bubble);
-  setTimeout(() => bubble.remove(), 2200);
-}
-
 // ─────────────────────────────────────────────────────────────────
 // FULLY INTERACTIVE DEMO CHAT
 // ─────────────────────────────────────────────────────────────────
 const chatEl = () => document.getElementById('fullChatMessages');
 const inputEl = () => document.getElementById('fullChatInput');
+const eventDashboardEl = () => document.getElementById('eventDashboard');
 
 // Conversation state machine
-let chatState = 'idle';     // idle → asked_event → weather_shown → confirmed → rsvp_live → followup
+let chatState = 'idle';     // idle → asked_event → weather_shown → invite_prompt → invite_generated → rsvp_live
 let eventDescription = '';
 let guestCount = 0;
 let eventDate = '';
 let confirmedCount = 0;
 let declinedCount = 0;
 let pendingCount = 0;
+let recommendedPlace = null;
 
 // Parse rough guest count from text
 function parseGuests(text) {
   const m = text.match(/\b(\d+)\b/);
   return m ? parseInt(m[1]) : Math.floor(Math.random() * 10) + 8;
+}
+
+function mapsUrlFor(place) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`;
+}
+
+function mapsEmbedUrlFor(place) {
+  return `https://www.google.com/maps?q=${encodeURIComponent(place)}&output=embed`;
+}
+
+function recommendPlaceFor(text) {
+  const lc = text.toLowerCase();
+  if (lc.includes('tokyo') && lc.includes('park')) return 'Ueno Park, Tokyo';
+  if (lc.includes('tokyo')) return 'Yoyogi Park, Tokyo';
+  if (lc.includes('rooftop')) return 'Rooftop Bar Andaz Tokyo';
+  if (lc.includes('wine')) return 'Wine Bar Mayu, Tokyo';
+  if (lc.includes('bbq') || lc.includes('barbecue')) return 'Wild Magic The Rainbow Farm, Tokyo';
+  if (lc.includes('dinner')) return 'CICADA Tokyo';
+  return 'Yoyogi Park, Tokyo';
 }
 
 // ── Append a user bubble ──
@@ -1679,7 +1998,7 @@ function showTyping() {
   const el = chatEl();
   const div = document.createElement('div');
   div.className = 'fchat-typing';
-  div.innerHTML = '<div class="fchat-typing-dot"></div><div class="fchat-typing-dot"></div><div class="fchat-typing-dot"></div>';
+  div.innerHTML = '<img class="fchat-typing-logo" src="clearlogobot.png" alt="Plan Bot reloading"><span class="fchat-typing-text">Plan Bot is thinking...</span>';
   el.appendChild(div);
   el.scrollTop = el.scrollHeight;
   return () => { if (div.parentNode) div.parentNode.removeChild(div); };
@@ -1691,6 +2010,83 @@ const delay = ms => new Promise(r => setTimeout(r, ms));
 // ── Escape HTML ──
 function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function updateEventDashboard(stage = 'Draft') {
+  const panel = eventDashboardEl();
+  if (!panel) return;
+
+  const titleEl = document.getElementById('eventSummaryTitle');
+  const listEl = document.getElementById('eventSummaryList');
+  const readyEl = document.getElementById('eventReadyPill');
+  const cleanEvent = eventDescription.trim().replace(/\s+/g, ' ');
+  const summary = cleanEvent
+    ? `${cleanEvent.slice(0, 58)}${cleanEvent.length > 58 ? '...' : ''} — ${eventDate || 'Date TBD'}`
+    : 'Describe your event to start your blueprint.';
+  const names = ['Rob', 'Lev', 'Nina', 'Maya'];
+  const count = guestCount || 0;
+  const visibleGuests = count ? names.slice(0, Math.min(names.length, Math.max(2, Math.min(count, 4)))) : ['Guest list appears here'];
+
+  if (titleEl) titleEl.textContent = summary;
+  if (readyEl) readyEl.textContent = stage;
+  if (listEl) {
+    const guestRows = visibleGuests.map((name, index) => {
+      const status = count
+        ? (confirmedCount && index < Math.min(confirmedCount, visibleGuests.length) ? 'Confirmed' : 'Pending')
+        : 'Waiting';
+      return `<div class="event-dashboard-row">
+        <span class="event-dashboard-dot"></span>
+        <span>${escHtml(name)}</span>
+        <span class="event-dashboard-status">${status}</span>
+      </div>`;
+    }).join('');
+    const placeRow = recommendedPlace
+      ? `<div class="event-dashboard-row">
+        <span class="event-dashboard-dot"></span>
+        <span>Place: <a href="${mapsUrlFor(recommendedPlace)}" target="_blank" rel="noopener">${escHtml(recommendedPlace)}</a></span>
+        <span class="event-dashboard-status">Maps</span>
+      </div>`
+      : '';
+    listEl.innerHTML = placeRow + guestRows;
+  }
+}
+
+function mapCardHtml(place) {
+  const url = mapsUrlFor(place);
+  const embedUrl = mapsEmbedUrlFor(place);
+  return `<div class="fchat-map-card fchat-card">
+    <iframe class="fchat-map-embed" src="${embedUrl}" title="Google Map for ${escHtml(place)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div style="font-weight:700;font-size:12px;color:#A06080;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Recommended place</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#1A0A0F;">◆ ${escHtml(place)}</div>
+    <div style="font-size:12px;color:#5C2D42;margin-top:6px;">A good nearby option for this event.</div>
+    <div class="fchat-place-meta">
+      <span>★ 4.4</span>
+      <span class="fchat-place-badge">Open now</span>
+      <span>Google Maps</span>
+    </div>
+    <a class="fchat-map-link" href="${url}" target="_blank" rel="noopener">View on Google Maps →</a>
+  </div>`;
+}
+
+function invitePromptCardHtml() {
+  return `<div class="fchat-card">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#1A0A0F;margin-bottom:6px;">Generate the invite?</div>
+    <div style="font-size:12px;color:#5C2D42;line-height:1.55;">I can produce a polished invite letter/card for your dinner on Saturday plan. Want me to make it now?</div>
+    <div class="fchat-action-row">
+      <button class="fchat-action-btn primary" onclick="handleInviteChoice(true)">Yes, make it</button>
+      <button class="fchat-action-btn" onclick="handleInviteChoice(false)">No thanks</button>
+    </div>
+  </div>`;
+}
+
+function inviteCardHtml() {
+  return `<div class="fchat-card">
+    <div style="font-weight:700;font-size:12px;color:#A06080;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Invite ready</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#1A0A0F;">Saturday dinner invite</div>
+    <div style="font-size:12px;color:#5C2D42;margin-top:6px;line-height:1.55;">I produced an invite for you. Review it below, then send it to your friend group when you're ready.</div>
+    <img class="fchat-invite-img" src="invite.jpg" alt="Generated Saturday dinner invite">
+    <button class="fchat-action-btn primary" onclick="handleInviteFriendGroup()">Invite friend group</button>
+  </div>`;
 }
 
 // ── Weather card HTML ──
@@ -1803,6 +2199,8 @@ async function runConversation(userText) {
     else if (lc.includes('friday'))  eventDate = 'This Friday';
     else if (lc.includes('friday'))  eventDate = 'This Friday';
     else eventDate = 'Your chosen date';
+    recommendedPlace = recommendPlaceFor(userText);
+    updateEventDashboard('Blueprint');
 
     const weatherOk = !lc.includes('friday') && Math.random() > 0.4;
 
@@ -1819,6 +2217,8 @@ async function runConversation(userText) {
     if (weatherOk) {
       appendBot(`Great news — the forecast looks beautiful for ${eventDate}! Here's the live weather check:`);
       appendCard(weatherCardHtml(true));
+      appendBot(`For the location, I'd recommend ${recommendedPlace}. I added a Google Maps link so you can check the exact spot.`);
+      appendCard(mapCardHtml(recommendedPlace));
       await delay(600);
       remove = showTyping();
       await delay(1100);
@@ -1827,6 +2227,8 @@ async function runConversation(userText) {
     } else {
       appendBot(`Heads-up — there's a rain risk for ${eventDate}. Here's the forecast:`);
       appendCard(weatherCardHtml(false));
+      appendBot(`I still found a strong location option: ${recommendedPlace}. Here is the Google Maps link so you can review the spot.`);
+      appendCard(mapCardHtml(recommendedPlace));
       await delay(600);
       remove = showTyping();
       await delay(1100);
@@ -1865,10 +2267,25 @@ async function runConversation(userText) {
     confirmedCount  = Math.floor(guestCount * 0.55);
     declinedCount   = Math.floor(guestCount * 0.1);
     pendingCount    = guestCount - confirmedCount - declinedCount;
+    updateEventDashboard('Ready');
     appendBot(`Early RSVPs are already coming in! Here's your live tracker:`);
     appendCard(rsvpCardHtml(confirmedCount, declinedCount, pendingCount));
+    await delay(700);
+    appendBot(`Last step: would you like me to generate an invite letter/card for this dinner on Saturday plan?`);
+    appendCard(invitePromptCardHtml());
+    chatState = 'invite_prompt';
 
-  } else if (chatState === 'confirmed') {
+  } else if (chatState === 'invite_prompt') {
+    const lc = userText.toLowerCase();
+    const wantsInvite = lc.includes('yes') || lc.includes('make') || lc.includes('generate') || lc.includes('invite') || lc.includes('sure') || lc.includes('ok');
+    if (wantsInvite) {
+      await generateInvite();
+    } else {
+      chatState = 'rsvp_live';
+      appendBot(`No problem. I’ll keep the plan ready and can generate the invite later if you change your mind.`);
+    }
+
+  } else if (chatState === 'confirmed' || chatState === 'invite_generated') {
     chatState = 'rsvp_live';
     const lc = userText.toLowerCase();
 
@@ -1876,11 +2293,14 @@ async function runConversation(userText) {
     await delay(700);
     remove();
 
-    if (lc.includes('shop') || lc.includes('food') || lc.includes('buy') || lc.includes('list')) {
+    if (lc.includes('invite') || lc.includes('friend group')) {
+      appendBot(`Done — I’m sending the generated invite to your friend group through their usual apps now.`);
+    } else if (lc.includes('shop') || lc.includes('food') || lc.includes('buy') || lc.includes('list')) {
       appendBot(`Here's your personalized shopping list based on ${confirmedCount} confirmed guests:`);
       appendCard(shoppingCardHtml(confirmedCount));
     } else if (lc.includes('rsvp') || lc.includes('who') || lc.includes('guest') || lc.includes('confirm')) {
       confirmedCount += 3; pendingCount = Math.max(0, pendingCount - 3);
+      updateEventDashboard('Ready');
       appendBot(`Updated! Three more RSVPs just came in 🎉 Here's the latest:`);
       appendCard(rsvpCardHtml(confirmedCount, declinedCount, pendingCount));
     } else if (lc.includes('remind') || lc.includes('follow')) {
@@ -1905,6 +2325,34 @@ async function runConversation(userText) {
 
   if (inp) inp.disabled = false;
   if (inp) inp.focus();
+}
+
+async function generateInvite() {
+  chatState = 'invite_generated';
+  appendBot(`Absolutely. I’ll produce an invite for you using the dinner on Saturday plan.`);
+  let remove = showTyping();
+  await delay(1000);
+  remove();
+  appendCard(inviteCardHtml());
+}
+
+async function handleInviteChoice(accepted) {
+  const inp = inputEl();
+  if (inp && inp.disabled) return;
+  appendUser(accepted ? 'Yes, make it' : 'No thanks');
+  if (accepted) {
+    await generateInvite();
+  } else {
+    chatState = 'rsvp_live';
+    appendBot(`No problem. I’ll keep the dinner plan ready without generating an invite.`);
+  }
+  if (inp) inp.focus();
+}
+
+function handleInviteFriendGroup() {
+  appendUser('Invite friend group');
+  appendBot(`Done — I’m sending the generated invite to your friend group through their usual apps now.`);
+  chatState = 'rsvp_live';
 }
 
 // ── Send from input ──
@@ -1934,6 +2382,12 @@ async function sendSuggestion(text) {
 // ── Welcome message on load ──
 window.addEventListener('DOMContentLoaded', () => {
   feather.replace();
+  updateEventDashboard();
+  document.querySelectorAll('video[src$=".mp4"]').forEach(video => {
+    video.muted = true;
+    video.playsInline = true;
+    video.play().catch(() => {});
+  });
   setTimeout(() => {
     appendBot("Hey! I'm Plan Bot 👋 Tell me about the event you'd like to plan — what, when, and roughly how many people. I'll check the weather, send invites, and track RSVPs automatically.");
     chatState = 'idle';
@@ -1942,9 +2396,13 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <!-- ── FOOTER ── -->
-<footer style="background:#000; padding:40px 48px; text-align:center;">
-  <p style="font-family:'Syne',sans-serif; font-weight:800; font-size:20px; color:#fff; margin-bottom:8px;">Plan Bot</p>
-  <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:0;">© 2026 Plan Bot. All rights reserved.</p>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <p style="font-family:'Syne',sans-serif; font-weight:800; font-size:20px; color:#fff; margin-bottom:0;">Plan Bot</p>
+      <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:0;">© 2026 Plan Bot. All rights reserved.</p>
+    </div>
+  </div>
 </footer>
 
 </body>
