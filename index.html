@@ -1814,9 +1814,11 @@
     .sugg-chip { font-size: 12px; padding: 7px 14px; }
     .full-chat-input-row { padding: 12px 12px 26px; }
     .event-dashboard { max-height: 154px; padding: 10px 12px 24px; }
-    .proof-strip { padding: 16px 20px; gap: 20px; flex-direction: column; }
-    .proof-item { flex-direction: column; text-align: center; }
-    .proof-divider { display: none; }
+    .proof-strip { padding: 14px 12px; gap: 0; flex-direction: row; justify-content: space-between; }
+    .proof-item { flex: 1; flex-direction: column; gap: 4px; text-align: center; min-width: 0; }
+    .proof-number { font-size: 19px; line-height: 1; }
+    .proof-label { font-size: 10px; line-height: 1.15; }
+    .proof-divider { display: block; height: 34px; margin: 0 8px; flex: 0 0 1px; }
     .proof-logo-cycle { padding: 26px 0; min-height: 180px; }
     .proof-logo-track { --proof-logo-gap: 24px; --proof-logo-loop-distance: 1064px; gap: var(--proof-logo-gap); animation-duration: 28s; padding-left: 24px; }
     .proof-logo-item { width: 128px; height: 128px; border-radius: 32px; }
@@ -1834,6 +1836,10 @@
     .hero-mascot-circle { width: 202px; height: 202px; }
     .hero-mascot-img { width: 154px; height: 154px; }
     .platform-chip { font-size: 10.5px; padding: 5px 8px; }
+    .proof-strip { padding: 12px 8px; }
+    .proof-number { font-size: 17px; }
+    .proof-label { font-size: 9px; }
+    .proof-divider { margin: 0 5px; }
   }
 </style>
 </head>
