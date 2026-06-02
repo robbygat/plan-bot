@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plan Bot — Your Invisible Event Planning Partner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-<!-- Professional vector icons to replace emojis -->
 <script src="https://unpkg.com/feather-icons"></script>
 <style>
   :root {
@@ -25,24 +23,17 @@
     --text-light: #A06080;
     --bubble-pink: #FF8CB8;
     --glow: rgba(255, 0, 85, 0.15);
+    --animation-fast: 200ms;
+    --animation-normal: 300ms;
+    --animation-slow: 500ms;
+    --animation-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--white);
-    color: var(--text-dark);
-    overflow-x: hidden;
-  }
-
-  .feather {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2.5;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+  .feather { width: 20px; height: 20px; stroke-width: 2.5; }
 
   /* ───────────── NAV ───────────── */
   nav {
@@ -65,16 +56,11 @@
     text-decoration: none;
   }
 
-  .nav-logo-icon {
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    object-fit: cover;
-  }
-
+  /* Logo text only — no image in nav */
   .nav-logo-text {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: 20px;
+    font-size: 24px; /* slightly bigger */
     color: var(--hot-pink);
     letter-spacing: -0.5px;
   }
@@ -88,7 +74,7 @@
   .nav-links a {
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 15px; /* slightly bigger */
     color: var(--text-mid);
     text-decoration: none;
     transition: color 0.2s;
@@ -99,9 +85,10 @@
   .nav-cta {
     background: var(--hot-pink);
     color: var(--white) !important;
-    padding: 10px 22px;
+    padding: 11px 24px;
     border-radius: 50px;
     font-weight: 600 !important;
+    font-size: 15px !important;
     transition: transform 0.2s, box-shadow 0.2s !important;
     box-shadow: 0 4px 20px rgba(255,0,85,0.3);
   }
@@ -301,429 +288,124 @@
     color: var(--text-mid);
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
-  .platform-chip .feather {
-    width: 14px; height: 14px;
-    color: var(--hot-pink);
-  }
+  .platform-chip .feather { width: 14px; height: 14px; color: var(--hot-pink); }
 
-  /* ───────────── PHONE MOCKUP ───────────── */
-  .hero-phone {
+  /* ───────────── HERO MASCOT WITH CIRCLE ───────────── */
+  .hero-mascot-wrap {
     position: relative;
     z-index: 2;
     display: flex;
     justify-content: center;
+    align-items: center;
     animation: fadeSlideUp 0.6s ease 0.2s both;
-    perspective: 1000px; /* Essential for 3D tilt */
   }
 
-  .phone-wrap {
+  .hero-mascot-circle {
     position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.1s ease-out; /* Smooth mouse tracking */
-  }
-
-  .phone-glow {
-    position: absolute;
-    inset: -40px;
-    background: radial-gradient(ellipse, rgba(255,0,85,0.12) 0%, transparent 70%);
-    pointer-events: none;
-    border-radius: 50%;
-    transform: translateZ(-50px); /* Pushes glow behind phone */
-  }
-
-  .phone-frame {
-    width: 340px;
-    background: var(--white);
-    border-radius: 44px;
-    box-shadow:
-      0 0 0 10px #1a0a0f,
-      0 0 0 12px rgba(255,255,255,0.2),
-      0 40px 80px rgba(26,10,15,0.25),
-      0 0 100px rgba(255,0,85,0.1);
-    overflow: hidden;
-    position: relative;
-    transform: translateZ(20px); /* Pops phone out for 3D effect */
-  }
-
-  .phone-notch {
-    background: #1a0a0f;
-    height: 36px;
+    width: 420px;
+    height: 420px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
   }
 
-  .phone-notch::after {
+  /* Outer decorative ring */
+  .hero-mascot-circle::before {
     content: '';
-    width: 100px;
-    height: 22px;
-    background: #1a0a0f;
-    border-radius: 0 0 18px 18px;
     position: absolute;
-    top: 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    inset: 0;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255,0,85,0.18);
+    animation: ringPulse 3s ease-in-out infinite;
   }
 
-  .phone-status {
+  /* Inner glow ring */
+  .hero-mascot-circle::after {
+    content: '';
     position: absolute;
-    top: 10px;
-    left: 0; right: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    font-size: 11px;
-    font-weight: 600;
-    color: white;
-    z-index: 2;
-  }
-
-  .chat-app {
-    background: #f7f7f9;
-    min-height: 620px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .chat-header {
-    background: white;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-  }
-
-  .chat-avatar {
-    width: 38px; height: 38px;
+    inset: 16px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    overflow: hidden;
+    border: 1.5px dashed rgba(255,0,85,0.12);
+    animation: ringRotate 18s linear infinite;
   }
 
-  .chat-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  @keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.03); opacity: 1; }
   }
 
-  .chat-header-info { flex: 1; }
-
-  .chat-header-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--text-dark);
+  @keyframes ringRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
-  .chat-header-status {
-    font-size: 11px;
-    color: #22c55e;
-    font-weight: 500;
-  }
-
-  .chat-messages {
-    flex: 1;
-    padding: 16px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-    max-height: 460px;
-  }
-
-  .msg {
-    max-width: 80%;
-    animation: msgPop 0.3s ease both;
-  }
-
-  @keyframes msgPop {
-    from { opacity: 0; transform: translateY(8px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .msg-bot { align-self: flex-start; }
-  .msg-user { align-self: flex-end; }
-
-  .msg-bubble {
-    padding: 10px 14px;
-    border-radius: 18px;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  .msg-bot .msg-bubble {
-    background: white;
-    color: var(--text-dark);
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  }
-
-  .msg-user .msg-bubble {
-    background: var(--hot-pink);
-    color: white;
-    border-bottom-right-radius: 4px;
-  }
-
-  .msg-time {
-    font-size: 10px;
-    color: var(--text-light);
-    margin-top: 3px;
-    text-align: right;
-    padding: 0 4px;
-  }
-
-  .msg-bot .msg-time { text-align: left; }
-
-  .msg-weather-card {
-    background: white;
-    border-radius: 14px;
-    border: 1.5px solid rgba(255,0,85,0.15);
-    padding: 12px;
-    margin-top: 6px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-  }
-
-  .weather-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .weather-icon {
-    color: var(--hot-pink);
-  }
-
-  .weather-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .weather-date {
-    font-size: 10px;
-    color: var(--text-light);
-  }
-
-  .weather-alert {
-    background: rgba(255,180,0,0.1);
-    border: 1px solid rgba(255,180,0,0.3);
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 11px;
-    color: #8B6000;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .weather-stats {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-  }
-
-  .weather-stat {
-    font-size: 10px;
-    color: var(--text-light);
-  }
-
-  .weather-stat strong {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-dark);
-  }
-
-  .msg-options {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 8px;
-  }
-
-  .msg-option-btn {
-    background: rgba(255,0,85,0.03);
-    border: 1.5px solid rgba(255,0,85,0.15);
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--hot-pink);
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .msg-option-btn:hover {
-    background: var(--hot-pink);
-    color: white;
-    transform: translateX(3px);
-  }
-
-  .msg-typing {
-    display: flex;
-    gap: 4px;
-    padding: 12px 16px;
-    background: white;
-    border-radius: 18px;
-    border-bottom-left-radius: 4px;
-    width: fit-content;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-
-  .typing-dot {
-    width: 6px; height: 6px;
-    background: var(--pale-pink);
-    border-radius: 50%;
-    animation: typingBounce 1.2s infinite;
-  }
-
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes typingBounce {
-    0%, 60%, 100% { transform: translateY(0); background: var(--pale-pink); }
-    30% { transform: translateY(-5px); background: var(--hot-pink); }
-  }
-
-  .msg-confirm-card {
-    background: linear-gradient(135deg, var(--hot-pink), #FF6B9D);
-    border-radius: 14px;
-    padding: 14px;
-    color: white;
-    margin-top: 6px;
-  }
-
-  .confirm-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    margin-bottom: 8px;
-  }
-
-  .confirm-details {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .confirm-detail {
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.9;
-  }
-
-  .confirm-check {
-    width: 16px; height: 16px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    flex-shrink: 0;
-  }
-
-  .chat-input-row {
-    background: white;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-top: 1px solid rgba(0,0,0,0.06);
-  }
-
-  .chat-input {
-    flex: 1;
-    background: #f7f7f9;
-    border: 1.5px solid rgba(255,0,85,0.15);
-    border-radius: 20px;
-    padding: 9px 14px;
-    font-size: 12px;
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-    color: var(--text-dark);
-    transition: border-color 0.2s;
-  }
-
-  .chat-input:focus { border-color: var(--hot-pink); }
-
-  .chat-send-btn {
-    width: 36px; height: 36px;
-    background: var(--hot-pink);
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(255,0,85,0.3);
-  }
-
-  .chat-send-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 18px rgba(255,0,85,0.4);
-  }
-
-  /* Floating bubbles behind phone */
-  .float-bubble {
+  /* Second outer ring with dots */
+  .mascot-ring-outer {
     position: absolute;
-    border-radius: 16px;
-    background: white;
-    padding: 12px 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    font-size: 12px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: floatBob 4s ease-in-out infinite;
-    white-space: nowrap;
+    inset: -20px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,0,85,0.08);
     pointer-events: none;
-    transform: translateZ(40px);
   }
 
-  .float-bubble .feather {
-    width: 16px; height: 16px;
-    color: var(--hot-pink);
+  /* Glow background behind mascot */
+  .mascot-glow-bg {
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,0,85,0.07) 0%, rgba(255,107,157,0.04) 50%, transparent 80%);
   }
 
-  @keyframes floatBob {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+  .hero-mascot-img {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+    animation: cuteFloat 3.8s ease-in-out infinite, logoPulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 20px 50px rgba(255, 0, 85, 0.22));
+    cursor: pointer;
+    transition: transform 0.4s var(--animation-bounce);
   }
 
-  .bubble-left {
-    left: -160px;
-    animation-delay: 0.5s;
+  .mascot-label {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, var(--hot-pink), var(--light-pink));
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255,0,85,0.4);
+    white-space: nowrap;
+    z-index: 3;
   }
 
-  .bubble-right {
-    right: -160px;
-    animation-delay: 1.5s;
+  /* Orbiting dots around the circle */
+  .orbit-dot {
+    position: absolute;
+    width: 10px; height: 10px;
+    background: var(--hot-pink);
+    border-radius: 50%;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  .orbit-dot:nth-child(1) { top: 10px; left: 50%; transform: translateX(-50%); animation: orbitGlow 2s ease-in-out infinite; }
+  .orbit-dot:nth-child(2) { bottom: 10px; left: 50%; transform: translateX(-50%); animation: orbitGlow 2s ease-in-out 0.7s infinite; }
+  .orbit-dot:nth-child(3) { left: 10px; top: 50%; transform: translateY(-50%); animation: orbitGlow 2s ease-in-out 1.4s infinite; }
+  .orbit-dot:nth-child(4) { right: 10px; top: 50%; transform: translateY(-50%); animation: orbitGlow 2s ease-in-out 0.35s infinite; }
+
+  @keyframes orbitGlow {
+    0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.9; transform: translateX(-50%) scale(1.4); }
   }
 
-  @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ───────────── SOCIAL PROOF STRIP ───────────── */
+  /* ───────────── PROOF STRIP ───────────── */
   .proof-strip {
     background: var(--hot-pink);
     padding: 20px 48px;
@@ -763,9 +445,7 @@
   }
 
   /* ───────────── HOW IT WORKS ───────────── */
-  .section {
-    padding: 100px 48px;
-  }
+  .section { padding: 100px 48px; }
 
   .section-inner {
     max-width: 1280px;
@@ -799,7 +479,6 @@
     margin-bottom: 60px;
   }
 
-  /* ───────────── STEPS ───────────── */
   .steps-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -892,7 +571,6 @@
   }
 
   .feature-card:hover::before { transform: scaleX(1); }
-
   .feature-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 20px 50px rgba(255,0,85,0.08);
@@ -910,10 +588,7 @@
     margin-bottom: 24px;
     border: 1.5px solid rgba(255,0,85,0.1);
   }
-
-  .feature-icon-wrap .feather {
-    width: 28px; height: 28px;
-  }
+  .feature-icon-wrap .feather { width: 28px; height: 28px; }
 
   .feature-name {
     font-family: 'Syne', sans-serif;
@@ -923,11 +598,7 @@
     margin-bottom: 10px;
   }
 
-  .feature-desc {
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--text-mid);
-  }
+  .feature-desc { font-size: 14px; line-height: 1.7; color: var(--text-mid); }
 
   .feature-tag {
     display: inline-block;
@@ -943,10 +614,7 @@
   }
 
   /* ───────────── PLATFORMS ───────────── */
-  .platforms-section {
-    padding: 100px 48px;
-    background: white;
-  }
+  .platforms-section { padding: 100px 48px; background: white; }
 
   .platforms-inner {
     max-width: 1280px;
@@ -993,257 +661,13 @@
     flex-shrink: 0;
   }
 
-  .plat-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--text-dark);
-  }
+  .plat-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--text-dark); }
+  .plat-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
 
-  .plat-desc {
-    font-size: 12px;
-    color: var(--text-light);
-    margin-top: 2px;
-  }
-
-  /* ───────────── LIVE DEMO SECTION ───────────── */
-  .demo-section {
-    background: linear-gradient(135deg, #fff0f5, #ffffff, #fff0f8);
-    padding: 100px 48px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .demo-section::before {
-    content: '';
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(255,0,85,0.05) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .demo-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-
-  .demo-chat-frame {
-    background: white;
-    border-radius: 32px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(26,10,15,0.08), 0 0 0 1px rgba(255,0,85,0.08);
-    position: sticky;
-    top: 100px;
-  }
-
-  .demo-chat-header {
-    background: var(--hot-pink);
-    padding: 18px 22px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .demo-chat-header .chat-avatar {
-    background: white;
-    border: 2px solid rgba(255,255,255,0.5);
-  }
-
-  .demo-chat-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: white;
-  }
-
-  .demo-chat-sub {
-    font-size: 12px;
-    color: rgba(255,255,255,0.8);
-  }
-
-  .demo-messages {
-    padding: 22px;
-    background: #f7f7f9;
-    min-height: 450px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-height: 500px;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-  }
-
-  .demo-input-bar {
-    background: white;
-    padding: 14px 18px;
-    display: flex;
-    gap: 10px;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    align-items: center;
-  }
-
-  .demo-input {
-    flex: 1;
-    background: #f7f7f9;
-    border: 1.5px solid rgba(255,0,85,0.15);
-    border-radius: 24px;
-    padding: 11px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    outline: none;
-    color: var(--text-dark);
-    transition: border-color 0.2s;
-  }
-
-  .demo-input:focus { border-color: var(--hot-pink); }
-
-  .demo-send {
-    width: 42px; height: 42px;
-    background: var(--hot-pink);
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    box-shadow: 0 4px 14px rgba(255,0,85,0.35);
-    flex-shrink: 0;
-  }
-
-  .demo-send:hover { transform: scale(1.1); }
-
-  .demo-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-
-  .demo-step {
-    display: flex;
-    gap: 20px;
-    opacity: 0.4;
-    transition: opacity 0.4s;
-  }
-
-  .demo-step.active { opacity: 1; }
-
-  .demo-step-num {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--super-pale);
-    border: 2px solid rgba(255,0,85,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 15px;
-    color: var(--hot-pink);
-    flex-shrink: 0;
-    transition: all 0.3s;
-  }
-
-  .demo-step.active .demo-step-num {
-    background: var(--hot-pink);
-    color: white;
-    border-color: var(--hot-pink);
-    box-shadow: 0 4px 14px rgba(255,0,85,0.35);
-  }
-
-  .demo-step-label {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--text-dark);
-    margin-bottom: 4px;
-  }
-  .demo-step-desc {
-    font-size: 14px;
-    color: var(--text-mid);
-    line-height: 1.6;
-  }
-
-  /* ───────────── TESTIMONIALS ───────────── */
-  .testimonials-section {
-    background: white;
-    padding: 100px 48px;
-  }
-
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 60px;
-  }
-
-  .testimonial-card {
-    background: var(--soft-gray);
-    border-radius: 24px;
-    padding: 32px 28px;
-    border: 1.5px solid rgba(255,0,85,0.05);
-    position: relative;
-    transition: all 0.3s;
-  }
-
-  .testimonial-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 50px rgba(255,0,85,0.05);
-    border-color: rgba(255,0,85,0.2);
-  }
-
-  .testimonial-quote {
-    font-size: 48px;
-    color: var(--pale-pink);
-    font-family: 'Syne', sans-serif;
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-
-  .testimonial-text {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-dark);
-    margin-bottom: 24px;
-  }
-
-  .testimonial-person {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .testimonial-avatar {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--hot-pink), var(--light-pink));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    flex-shrink: 0;
-  }
-
-  .testimonial-name {
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--text-dark);
-  }
-
-  .testimonial-role {
-    font-size: 12px;
-    color: var(--text-light);
-  }
-
-  .testimonial-flag {
-    margin-left: auto;
-    color: var(--hot-pink);
+  /* ───────────── TESTIMONIALS / COMING SOON ───────────── */
+  .coming-soon-section {
+    background: linear-gradient(160deg, var(--super-pale) 0%, white 100%);
+    padding: 100px 48px 120px;
   }
 
   /* ───────────── PRICING ───────────── */
@@ -1283,8 +707,7 @@
 
   .price-badge {
     position: absolute;
-    top: -14px;
-    left: 50%;
+    top: -14px; left: 50%;
     transform: translateX(-50%);
     background: var(--dark-rose);
     color: white;
@@ -1305,7 +728,6 @@
     color: var(--hot-pink);
     margin-bottom: 12px;
   }
-
   .price-card.featured .price-plan { color: rgba(255,255,255,0.8); }
 
   .price-amount {
@@ -1316,15 +738,9 @@
     line-height: 1;
     margin-bottom: 4px;
   }
-
   .price-card.featured .price-amount { color: white; }
 
-  .price-period {
-    font-size: 14px;
-    color: var(--text-light);
-    margin-bottom: 28px;
-  }
-
+  .price-period { font-size: 14px; color: var(--text-light); margin-bottom: 28px; }
   .price-card.featured .price-period { color: rgba(255,255,255,0.7); }
 
   .price-features {
@@ -1342,7 +758,6 @@
     font-size: 14px;
     color: var(--text-mid);
   }
-
   .price-card.featured .price-feature { color: rgba(255,255,255,0.9); }
 
   .price-check {
@@ -1356,11 +771,7 @@
     flex-shrink: 0;
   }
   .price-check .feather { width: 12px; height: 12px; }
-
-  .price-card.featured .price-check {
-    background: rgba(255,255,255,0.25);
-    color: white;
-  }
+  .price-card.featured .price-check { background: rgba(255,255,255,0.25); color: white; }
 
   .btn-plan {
     width: 100%;
@@ -1379,12 +790,7 @@
     border: 2px solid rgba(255,0,85,0.2);
     color: var(--hot-pink);
   }
-
-  .btn-plan-outline:hover {
-    background: var(--hot-pink);
-    border-color: var(--hot-pink);
-    color: white;
-  }
+  .btn-plan-outline:hover { background: var(--hot-pink); border-color: var(--hot-pink); color: white; }
 
   .btn-plan-white {
     background: white;
@@ -1392,8 +798,254 @@
     color: var(--hot-pink);
     box-shadow: 0 4px 14px rgba(0,0,0,0.15);
   }
-
   .btn-plan-white:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+  /* ───────────── INTERACTIVE DEMO AT BOTTOM ───────────── */
+  .interactive-demo-section {
+    background: white;
+    padding: 100px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .interactive-demo-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,0,85,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .interactive-demo-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Full-size interactive chat */
+  .full-chat-frame {
+    background: white;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(26,10,15,0.1), 0 0 0 1px rgba(255,0,85,0.1);
+    margin-top: 48px;
+  }
+
+  .full-chat-header {
+    background: var(--hot-pink);
+    padding: 20px 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .full-chat-avatar {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+  .full-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+  .full-chat-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    color: white;
+  }
+  .full-chat-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 1px; }
+
+  .live-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  .full-chat-messages {
+    background: #fdf4f8;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 400px;
+    max-height: 480px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  .full-chat-messages::-webkit-scrollbar { width: 4px; }
+  .full-chat-messages::-webkit-scrollbar-thumb { background: var(--pale-pink); border-radius: 2px; }
+
+  .fchat-msg { animation: msgPop 0.3s ease both; }
+  .fchat-msg.user { align-self: flex-end; max-width: 68%; }
+  .fchat-msg.bot  { align-self: flex-start; max-width: 72%; }
+
+  @keyframes msgPop {
+    from { opacity: 0; transform: translateY(10px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .fchat-bubble {
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .fchat-msg.user .fchat-bubble {
+    background: var(--hot-pink);
+    color: white;
+    border-bottom-right-radius: 5px;
+  }
+
+  .fchat-msg.bot .fchat-bubble {
+    background: white;
+    color: var(--text-dark);
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .fchat-time {
+    font-size: 10px;
+    color: var(--text-light);
+    margin-top: 4px;
+    padding: 0 5px;
+  }
+  .fchat-msg.user .fchat-time { text-align: right; }
+
+  /* Rich cards inside chat */
+  .fchat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 14px;
+    margin-top: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    border: 1.5px solid rgba(255,0,85,0.12);
+  }
+
+  .fchat-rsvp-grid {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .fchat-rsvp-pill {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .fchat-rsvp-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+  }
+
+  .fchat-rsvp-lbl { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+  .fchat-typing {
+    display: flex;
+    gap: 5px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 20px;
+    border-bottom-left-radius: 5px;
+    width: fit-content;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    align-self: flex-start;
+  }
+
+  .fchat-typing-dot {
+    width: 7px; height: 7px;
+    background: var(--pale-pink);
+    border-radius: 50%;
+    animation: typingBounce 1.2s infinite;
+  }
+  .fchat-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .fchat-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); background: var(--pale-pink); }
+    30% { transform: translateY(-6px); background: var(--hot-pink); }
+  }
+
+  /* Suggestion chips */
+  .suggestions-row {
+    padding: 16px 28px;
+    background: white;
+    border-top: 1px solid rgba(255,0,85,0.06);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .sugg-chip {
+    background: rgba(255,0,85,0.04);
+    border: 1.5px solid rgba(255,0,85,0.15);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--hot-pink);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .sugg-chip:hover {
+    background: var(--hot-pink);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(255,0,85,0.25);
+  }
+
+  .full-chat-input-row {
+    background: white;
+    padding: 16px 22px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .full-chat-input {
+    flex: 1;
+    background: #fdf4f8;
+    border: 1.5px solid rgba(255,0,85,0.18);
+    border-radius: 50px;
+    padding: 13px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    color: var(--text-dark);
+    transition: border-color 0.2s;
+  }
+  .full-chat-input:focus { border-color: var(--hot-pink); }
+  .full-chat-input::placeholder { color: var(--text-light); }
+
+  .full-chat-send {
+    width: 46px; height: 46px;
+    background: var(--hot-pink);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(255,0,85,0.4);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .full-chat-send:hover { transform: scale(1.1); box-shadow: 0 6px 22px rgba(255,0,85,0.5); }
+  .full-chat-send .feather { color: white; width: 19px; height: 19px; }
 
   /* ───────────── CTA ───────────── */
   .cta-section {
@@ -1468,7 +1120,6 @@
     transition: all 0.2s;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   }
-
   .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
 
   /* ───────────── FOOTER ───────────── */
@@ -1478,10 +1129,7 @@
     color: rgba(255,255,255,0.7);
   }
 
-  .footer-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-  }
+  .footer-inner { max-width: 1280px; margin: 0 auto; }
 
   .footer-top {
     display: grid;
@@ -1495,15 +1143,10 @@
     font-weight: 800;
     font-size: 22px;
     color: white;
-    margin-top: 12px;
     margin-bottom: 14px;
   }
 
-  .footer-brand-desc {
-    font-size: 13px;
-    line-height: 1.7;
-    max-width: 260px;
-  }
+  .footer-brand-desc { font-size: 13px; line-height: 1.7; max-width: 260px; }
 
   .footer-col-title {
     font-family: 'Syne', sans-serif;
@@ -1515,20 +1158,8 @@
     margin-bottom: 16px;
   }
 
-  .footer-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .footer-links a {
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--light-pink); }
 
   .footer-bottom {
@@ -1540,6 +1171,27 @@
     font-size: 12px;
   }
 
+  /* ───────────── KEYFRAMES ───────────── */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes cuteFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%       { transform: translateY(-18px) rotate(2deg); }
+  }
+
+  @keyframes logoPulse {
+    0%, 100% { filter: drop-shadow(0 10px 30px rgba(255,0,85,0.2)); }
+    50%       { filter: drop-shadow(0 22px 50px rgba(255,0,85,0.4)); }
+  }
+
+  @keyframes cuteSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
   /* ───────────── SCROLLBAR ───────────── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -1548,53 +1200,48 @@
   /* ───────────── RESPONSIVE ───────────── */
   @media (max-width: 1024px) {
     .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-    .hero-phone { display: none; }
     .steps-grid { grid-template-columns: repeat(2, 1fr); }
     .features-grid { grid-template-columns: repeat(2, 1fr); }
     .platforms-inner { grid-template-columns: 1fr; }
-    .demo-inner { grid-template-columns: 1fr; }
     .testimonials-grid { grid-template-columns: 1fr 1fr; }
     .pricing-grid { grid-template-columns: 1fr; max-width: 440px; margin: 60px auto 0; }
     .price-card.featured { transform: none; }
     .footer-top { grid-template-columns: 1fr 1fr; }
     .proof-strip { gap: 30px; flex-wrap: wrap; }
+    .hero-mascot-circle { width: 340px; height: 340px; }
+    .hero-mascot-img { width: 260px; height: 260px; }
   }
 
   @media (max-width: 640px) {
     nav { padding: 16px 20px; }
     .nav-links { display: none; }
     .hero { padding: 100px 20px 60px; }
-    .section, .platforms-section, .demo-section, .testimonials-section, .pricing-section, .cta-section { padding: 60px 20px; }
-    .steps-grid, .features-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .section, .platforms-section, .interactive-demo-section, .coming-soon-section, .pricing-section, .cta-section { padding: 60px 20px; }
+    .steps-grid, .features-grid { grid-template-columns: 1fr; }
     .cta-email-row { flex-direction: column; }
     footer { padding: 40px 20px 30px; }
     .footer-top { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-    .bubble-left, .bubble-right { display: none; }
+    .hero-mascot-circle { width: 280px; height: 280px; }
+    .hero-mascot-img { width: 210px; height: 210px; }
+    .full-chat-messages { min-height: 300px; max-height: 360px; padding: 18px; }
+    .suggestions-row { padding: 12px 16px; }
   }
-
-  /* Invisible scrollbar for chat */
-  .demo-messages::-webkit-scrollbar { width: 3px; }
-  .demo-messages::-webkit-scrollbar-thumb { background: var(--pale-pink); }
-  .chat-messages::-webkit-scrollbar { width: 3px; }
-  .chat-messages::-webkit-scrollbar-thumb { background: var(--pale-pink); }
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
+<!-- ── NAV (no logo image, bigger font) ── -->
 <nav>
   <a href="#" class="nav-logo">
-    <img src="logobot.png" class="nav-logo-icon planbot-logo-svg" alt="Plan Bot Logo">
     <span class="nav-logo-text">Plan Bot</span>
   </a>
   <ul class="nav-links">
     <li><a href="#how">How It Works</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#platforms">Platforms</a></li>
-    <li><a href="#demo">Live Demo</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#demo" class="nav-cta">Try For Free</a></li>
+    <li><a href="#live-demo" class="nav-cta">Try For Free</a></li>
   </ul>
 </nav>
 
@@ -1604,7 +1251,7 @@
     <div class="hero-left">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        <span>Now live worldwide — LINE, WhatsApp & Email</span>
+        <span>Now live worldwide — LINE, WhatsApp &amp; Email</span>
       </div>
       <h1 class="hero-headline">
         The event planner<br>
@@ -1615,7 +1262,7 @@
         Plan Bot is your invisible AI assistant that coordinates every detail — schedules, invites, RSVPs, weather, shopping — through the apps your guests already use. No downloads. No friction. Just perfect execution.
       </p>
       <div class="hero-actions">
-        <a href="#demo" class="btn-primary">
+        <a href="#live-demo" class="btn-primary">
           <i data-feather="zap"></i>
           Start Planning Free
         </a>
@@ -1635,81 +1282,21 @@
         </div>
       </div>
     </div>
-    <!-- Phone mockup -->
-    <div class="hero-phone">
-      <div class="phone-wrap">
-        <div class="phone-glow"></div>
-        <!-- Floating badges -->
-        <div class="float-bubble bubble-left" style="top: 80px;">
-          <i data-feather="check-circle"></i> <span style="color:#1A0A0F">14 RSVPs confirmed</span>
-        </div>
-        <div class="float-bubble bubble-right" style="top: 200px; animation-delay:1s;">
-          <i data-feather="sun"></i> <span style="color:#1A0A0F">Weather check: Clear</span>
-        </div>
-        <div class="float-bubble bubble-left" style="bottom: 120px; animation-delay:2s;">
-          <i data-feather="shopping-bag"></i> <span style="color:#1A0A0F">Shopping list ready</span>
-        </div>
-        <div class="phone-frame">
-          <div class="phone-notch">
-            <div class="phone-status">
-              <span>9:41</span>
-              <span>●●●</span>
-            </div>
-          </div>
-          <div class="chat-app">
-            <div class="chat-header">
-              <div class="chat-avatar">
-                <img src="logobot.png" alt="Plan Bot">
-              </div>
-              <div class="chat-header-info">
-                <div class="chat-header-name">Plan Bot</div>
-                <div class="chat-header-status">● Online — planning your event</div>
-              </div>
-            </div>
-            <div class="chat-messages" id="heroChat">
-              <div class="msg msg-user">
-                <div class="msg-bubble">Hey! I want to plan a rooftop BBQ for 20 people on June 14th</div>
-                <div class="msg-time">9:38</div>
-              </div>
-              <div class="msg msg-bot">
-                <div class="msg-bubble">Love it! Let me check weather for June 14th and find the best time.</div>
-                <div class="msg-weather-card">
-                  <div class="weather-header">
-                    <span class="weather-icon"><i data-feather="cloud-rain"></i></span>
-                    <div>
-                      <div class="weather-title">June 14 — Weather Alert</div>
-                      <div class="weather-date">High confidence forecast</div>
-                    </div>
-                  </div>
-                  <div class="weather-alert">
-                    <i data-feather="alert-triangle" style="width:14px; height:14px;"></i> 78% chance of heavy rain, 12–8pm
-                  </div>
-                  <div class="weather-stats">
-                    <div class="weather-stat"><strong>22°C</strong>Temp</div>
-                    <div class="weather-stat"><strong>78%</strong>Rain</div>
-                    <div class="weather-stat"><strong>40km/h</strong>Wind</div>
-                  </div>
-                </div>
-                <div class="msg-time">9:38</div>
-              </div>
-              <div class="msg msg-bot">
-                <div class="msg-bubble">Rain looks likely. Want me to check alternatives?</div>
-                <div class="msg-options">
-                  <div class="msg-option-btn"><i data-feather="calendar" style="width:14px;"></i> Move to June 15 (sunny, 26°C)</div>
-                  <div class="msg-option-btn"><i data-feather="home" style="width:14px;"></i> Find an indoor venue instead</div>
-                  <div class="msg-option-btn"><i data-feather="umbrella" style="width:14px;"></i> Keep date, add rain backup plan</div>
-                </div>
-                <div class="msg-time">9:38</div>
-              </div>
-            </div>
-            <div class="chat-input-row">
-              <input class="chat-input" type="text" placeholder="Reply to Plan Bot...">
-              <button class="chat-send-btn">
-                <i data-feather="send" style="color: white; width: 16px; height: 16px;"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+
+    <!-- Hero mascot — circular with decorative ring -->
+    <div class="hero-mascot-wrap">
+      <div class="hero-mascot-circle" id="mascotCircle">
+        <div class="mascot-ring-outer"></div>
+        <div class="mascot-glow-bg"></div>
+        <div class="orbit-dot"></div>
+        <div class="orbit-dot"></div>
+        <div class="orbit-dot"></div>
+        <div class="orbit-dot"></div>
+        <img src="clearlogobot.png" alt="Plan Bot — Your Invisible Event Partner"
+             class="hero-mascot-img"
+             id="mascotImg"
+             onclick="mascotClick(this)">
+        <div class="mascot-label">YOUR INVISIBLE CO-HOST</div>
       </div>
     </div>
   </div>
@@ -1736,11 +1323,6 @@
     <span class="proof-number">0</span>
     <span class="proof-label">Apps for guests<br>to download</span>
   </div>
-  <div class="proof-divider"></div>
-  <div class="proof-item">
-    <span class="proof-number">4.9★</span>
-    <span class="proof-label">Average host<br>rating</span>
-  </div>
 </div>
 
 <!-- ── HOW IT WORKS ── -->
@@ -1749,6 +1331,11 @@
     <div class="section-eyebrow">How It Works</div>
     <h2 class="section-title">From idea to fully<br>booked — in minutes</h2>
     <p class="section-sub">Just describe what you want. Plan Bot handles everything else, invisibly, behind the scenes.</p>
+
+    <div style="margin-top: 40px; text-align: center;">
+      <video src="logobot.mp4" autoplay loop muted playsinline style="width: 100%; max-width: 900px; border-radius: 24px; box-shadow: 0 20px 60px rgba(255, 0, 85, 0.15); border: 2px solid rgba(255,0,85,0.1);"></video>
+    </div>
+
     <div class="steps-grid">
       <div class="step-card">
         <span class="step-number">01</span>
@@ -1823,7 +1410,7 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon-wrap"><i data-feather="map-pin"></i></div>
-        <div class="feature-name">Location & Logistics</div>
+        <div class="feature-name">Location &amp; Logistics</div>
         <p class="feature-desc">Drop a venue or let Plan Bot suggest options. It attaches maps, parking info, transit directions, and estimated travel times — all personalized for each guest.</p>
         <span class="feature-tag">Directions API</span>
       </div>
@@ -1838,12 +1425,6 @@
         <div class="feature-name">Automated Reminders</div>
         <p class="feature-desc">Smart reminders at 1 week, 24 hours, and 1 hour before the event. Plan Bot knows when to nudge and when to leave people alone.</p>
         <span class="feature-tag">Smart Timing</span>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon-wrap"><i data-feather="bar-chart-2"></i></div>
-        <div class="feature-name">Post-Event Insights</div>
-        <p class="feature-desc">After the event, get a summary: attendance rate, who had fun, what worked, and suggestions for next time. Your events improve automatically.</p>
-        <span class="feature-tag">Analytics</span>
       </div>
     </div>
   </div>
@@ -1860,185 +1441,56 @@
     <div class="platform-cards">
       <div class="plat-card">
         <div class="plat-icon"><i data-feather="message-square"></i></div>
-        <div>
-          <div class="plat-name">WhatsApp</div>
-          <div class="plat-desc">2B+ users worldwide</div>
-        </div>
+        <div><div class="plat-name">WhatsApp</div><div class="plat-desc">2B+ users worldwide</div></div>
       </div>
       <div class="plat-card">
         <div class="plat-icon"><i data-feather="message-circle"></i></div>
-        <div>
-          <div class="plat-name">LINE</div>
-          <div class="plat-desc">200M+ in Asia</div>
-        </div>
+        <div><div class="plat-name">LINE</div><div class="plat-desc">200M+ in Asia</div></div>
       </div>
       <div class="plat-card">
         <div class="plat-icon"><i data-feather="mail"></i></div>
-        <div>
-          <div class="plat-name">Email</div>
-          <div class="plat-desc">Universal fallback</div>
-        </div>
+        <div><div class="plat-name">Email</div><div class="plat-desc">Universal fallback</div></div>
       </div>
       <div class="plat-card">
         <div class="plat-icon"><i data-feather="smartphone"></i></div>
-        <div>
-          <div class="plat-name">SMS / iMessage</div>
-          <div class="plat-desc">No data needed</div>
-        </div>
+        <div><div class="plat-name">SMS / iMessage</div><div class="plat-desc">No data needed</div></div>
       </div>
       <div class="plat-card">
         <div class="plat-icon"><i data-feather="send"></i></div>
-        <div>
-          <div class="plat-name">Telegram</div>
-          <div class="plat-desc">700M+ users</div>
-        </div>
+        <div><div class="plat-name">Telegram</div><div class="plat-desc">700M+ users</div></div>
       </div>
       <div class="plat-card">
         <div class="plat-icon"><i data-feather="facebook"></i></div>
-        <div>
-          <div class="plat-name">Facebook Msg</div>
-          <div class="plat-desc">1.3B Messenger users</div>
-        </div>
+        <div><div class="plat-name">Facebook Msg</div><div class="plat-desc">1.3B Messenger users</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── LIVE DEMO ── -->
-<section class="demo-section" id="demo">
-  <div class="section-inner" style="max-width:1280px;margin:0 auto;">
-    <div class="section-eyebrow">Live Demo</div>
-    <h2 class="section-title">Plan a full event<br>right here</h2>
-    <p class="section-sub">Click through a real planning journey — from rough idea to fully booked event, including a live weather alert.</p>
-  </div>
-  <div class="demo-inner" style="max-width:1280px;margin:40px auto 0;">
-    <div class="demo-chat-frame">
-      <div class="demo-chat-header">
-        <div class="chat-avatar" style="background:rgba(255,255,255,1);">
-          <img src="logobot.png" alt="Plan Bot">
-        </div>
-        <div>
-          <div class="demo-chat-name">Plan Bot</div>
-          <div class="demo-chat-sub">Your invisible event planner • Always on</div>
-        </div>
-        <div style="margin-left:auto;display:flex;gap:6px;">
-          <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
-          <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
-          <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
-        </div>
+<!-- ── COMING SOON / SOCIAL PROOF ── -->
+<section class="coming-soon-section">
+  <div style="max-width: 720px; margin: 0 auto; text-align: center;">
+    <img src="clearlogobot.png" alt="Plan Bot Mascot" style="width: 110px; height: 110px; margin-bottom: 28px; border-radius: 50%; border: 3px solid rgba(255,0,85,0.2); box-shadow: 0 20px 50px rgba(255,0,85,0.2); animation: cuteFloat 3.2s ease-in-out infinite; object-fit: cover;">
+    <div class="section-eyebrow">Real Stories &amp; Ratings Coming Soon</div>
+    <h2 class="section-title" style="text-align:center; max-width: 620px; margin-left:auto; margin-right:auto;">Thousands of hosts already look<br>effortlessly organized.<br>Your story is next.</h2>
+    <p class="section-sub" style="max-width: 560px; margin: 0 auto 36px; text-align:center;">We're gathering the best real reviews from Plan Bot users around the world. In the meantime, see why hosts everywhere are letting Plan Bot handle the details — while they take all the credit.</p>
+    <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
+      <div class="platform-chip" style="background: white; border-color: rgba(255,0,85,0.15); padding: 10px 20px;">
+        <i data-feather="users" style="width:18px;height:18px;"></i>
+        <span style="font-weight:600;">14,800+ happy hosts</span>
       </div>
-      <div class="demo-messages" id="demoMessages">
-        <div class="msg msg-bot">
-          <div class="msg-bubble">Hey! I'm Plan Bot. Tell me about the event you want to create — what kind, when, and who's invited?</div>
-          <div class="msg-time">Now</div>
-        </div>
+      <div class="platform-chip" style="background: white; border-color: rgba(255,0,85,0.15); padding: 10px 20px;">
+        <i data-feather="globe" style="width:18px;height:18px;"></i>
+        <span style="font-weight:600;">180+ countries</span>
       </div>
-      <div class="demo-input-bar">
-        <input class="demo-input" id="demoInput" type="text" placeholder="e.g. garden party for my birthday next month...">
-        <button class="demo-send" id="demoSendBtn" onclick="handleDemoSend()">
-          <i data-feather="send" style="color: white; width: 18px; height: 18px;"></i>
-        </button>
+      <div class="platform-chip" style="background: white; border-color: rgba(255,0,85,0.15); padding: 10px 20px;">
+        <i data-feather="award" style="width:18px;height:18px;"></i>
+        <span style="font-weight:600;">4.96 avg satisfaction</span>
       </div>
     </div>
-
-    <!-- Steps sidebar -->
-    <div class="demo-steps">
-      <div style="margin-bottom:8px;">
-        <div class="section-eyebrow" style="margin-bottom:8px;">The Planning Journey</div>
-        <p style="font-size:15px;color:var(--text-mid);line-height:1.6;">Watch Plan Bot guide you through each stage — from a casual idea to a fully organised event with confirmed guests.</p>
-      </div>
-      <div class="demo-step active" id="step-0">
-        <div class="demo-step-num">1</div>
-        <div class="demo-step-content">
-          <div class="demo-step-label">Describe your event</div>
-          <div class="demo-step-desc">Just tell Plan Bot what you want in plain language — no forms, no fields.</div>
-        </div>
-      </div>
-      <div class="demo-step" id="step-1">
-        <div class="demo-step-num">2</div>
-        <div class="demo-step-content">
-          <div class="demo-step-label">Weather check & date selection</div>
-          <div class="demo-step-desc">Live weather API scans your date. Flags risks. Suggests better alternatives.</div>
-        </div>
-      </div>
-      <div class="demo-step" id="step-2">
-        <div class="demo-step-num">3</div>
-        <div class="demo-step-content">
-          <div class="demo-step-label">Guest list & channels</div>
-          <div class="demo-step-desc">Invitations crafted for each guest's preferred messaging app.</div>
-        </div>
-      </div>
-      <div class="demo-step" id="step-3">
-        <div class="demo-step-num">4</div>
-        <div class="demo-step-content">
-          <div class="demo-step-label">RSVPs & logistics</div>
-          <div class="demo-step-desc">Tracking responses, dietary needs, and building your shopping list.</div>
-        </div>
-      </div>
-      <div class="demo-step" id="step-4">
-        <div class="demo-step-num">5</div>
-        <div class="demo-step-content">
-          <div class="demo-step-label">Event confirmed!</div>
-          <div class="demo-step-desc">Every detail locked in. You just show up and be the amazing host.</div>
-        </div>
-      </div>
-
-      <!-- Quick-start suggestions -->
-      <div style="margin-top:20px;">
-        <p style="font-size:12px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Try these examples</p>
-        <div style="display:flex;flex-direction:column;gap:8px;" id="quickStarts">
-          <button onclick="quickStart(0)" class="msg-option-btn" style="font-size:13px;font-weight:500;color:var(--text-mid);background:white;border-color:rgba(0,0,0,0.1);"><i data-feather="chevron-right" style="width: 14px;"></i> Rooftop BBQ for 20 on June 14th</button>
-          <button onclick="quickStart(1)" class="msg-option-btn" style="font-size:13px;font-weight:500;color:var(--text-mid);background:white;border-color:rgba(0,0,0,0.1);"><i data-feather="chevron-right" style="width: 14px;"></i> Surprise birthday dinner, next Saturday</button>
-          <button onclick="quickStart(2)" class="msg-option-btn" style="font-size:13px;font-weight:500;color:var(--text-mid);background:white;border-color:rgba(0,0,0,0.1);"><i data-feather="chevron-right" style="width: 14px;"></i> Wine tasting night for 12 friends</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── TESTIMONIALS ── -->
-<section class="testimonials-section">
-  <div class="section-inner">
-    <div class="section-eyebrow">From Hosts Worldwide</div>
-    <h2 class="section-title">They looked effortless.<br>Plan Bot made it so.</h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-quote">"</div>
-        <p class="testimonial-text">I planned a dinner for 18 people across three time zones. Plan Bot found a time, invited everyone on WhatsApp, and reminded them the day before. My friends thought I was incredibly organised. I wasn't — Plan Bot was.</p>
-        <div class="testimonial-person">
-          <div class="testimonial-avatar">M</div>
-          <div>
-            <div class="testimonial-name">Mia Andersson</div>
-            <div class="testimonial-role">Product Designer, Stockholm</div>
-          </div>
-          <span class="testimonial-flag"><i data-feather="globe"></i></span>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-quote">"</div>
-        <p class="testimonial-text">The weather alert saved our outdoor wedding anniversary party. It flagged 80% rain two days before and suggested an indoor venue nearby. 30 guests, perfectly rerouted with one message.</p>
-        <div class="testimonial-person">
-          <div class="testimonial-avatar">K</div>
-          <div>
-            <div class="testimonial-name">Kenji Watanabe</div>
-            <div class="testimonial-role">Chef & Restaurateur, Osaka</div>
-          </div>
-          <span class="testimonial-flag"><i data-feather="globe"></i></span>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-quote">"</div>
-        <p class="testimonial-text">I coordinate family reunions across 4 countries. Different people use different apps. Plan Bot reaches everyone without any of them needing to do anything. Absolute game-changer.</p>
-        <div class="testimonial-person">
-          <div class="testimonial-avatar">P</div>
-          <div>
-            <div class="testimonial-name">Priya Nair</div>
-            <div class="testimonial-role">Event Coordinator, Mumbai</div>
-          </div>
-          <span class="testimonial-flag"><i data-feather="globe"></i></span>
-        </div>
-      </div>
-    </div>
+    <a href="#live-demo" class="btn-primary" style="display:inline-flex; margin-top:12px;">
+      <i data-feather="play"></i> Try it now — it's free
+    </a>
   </div>
 </section>
 
@@ -2049,6 +1501,7 @@
     <h2 class="section-title">Start free. Scale<br>when you love it.</h2>
     <p class="section-sub">No credit card required. Your first three events are on us.</p>
     <div class="pricing-grid">
+      <!-- Starter -->
       <div class="price-card">
         <div class="price-plan">Starter</div>
         <div class="price-amount">$0</div>
@@ -2056,16 +1509,17 @@
         <ul class="price-features">
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> 3 events per month</li>
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Up to 15 guests</li>
-          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> WhatsApp & Email</li>
+          <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> WhatsApp &amp; Email</li>
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Weather alerts</li>
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Basic RSVP tracking</li>
         </ul>
         <button class="btn-plan btn-plan-outline">Get Started Free</button>
       </div>
+      <!-- Host — $5/mo -->
       <div class="price-card featured">
         <div class="price-badge">Most Popular</div>
         <div class="price-plan">Host</div>
-        <div class="price-amount">$12</div>
+        <div class="price-amount">$5</div>
         <div class="price-period">per month, billed annually</div>
         <ul class="price-features">
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Unlimited events</li>
@@ -2078,9 +1532,10 @@
         </ul>
         <button class="btn-plan btn-plan-white">Start 14-Day Trial</button>
       </div>
+      <!-- Pro — $10/mo -->
       <div class="price-card">
         <div class="price-plan">Pro</div>
-        <div class="price-amount">$39</div>
+        <div class="price-amount">$10</div>
         <div class="price-period">per month, billed annually</div>
         <ul class="price-features">
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Everything in Host</li>
@@ -2092,6 +1547,52 @@
           <li class="price-feature"><div class="price-check"><i data-feather="check"></i></div> Dedicated support</li>
         </ul>
         <button class="btn-plan btn-plan-outline">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIVE INTERACTIVE DEMO (full-size, truly interactive) ── -->
+<section class="interactive-demo-section" id="live-demo">
+  <div class="interactive-demo-inner">
+    <div style="text-align: center; margin-bottom: 0;">
+      <div class="section-eyebrow">Live Demo</div>
+      <h2 class="section-title" style="max-width: 600px; margin: 0 auto 16px;">Chat with Plan Bot right now</h2>
+      <p style="color: var(--text-mid); font-size: 16px; line-height: 1.6; max-width: 500px; margin: 0 auto;">Type your event idea below — or tap a suggestion — and watch Plan Bot plan a real event live. Weather checks, RSVPs, shopping lists and all.</p>
+    </div>
+
+    <div class="full-chat-frame">
+      <!-- Header -->
+      <div class="full-chat-header">
+        <div class="full-chat-avatar">
+          <img src="clearlogobot.png" alt="Plan Bot">
+        </div>
+        <div>
+          <div class="full-chat-name">Plan Bot</div>
+          <div class="full-chat-sub">● Online · Your invisible co-host</div>
+        </div>
+        <div class="live-badge">LIVE</div>
+      </div>
+
+      <!-- Messages -->
+      <div class="full-chat-messages" id="fullChatMessages"></div>
+
+      <!-- Suggestion chips -->
+      <div class="suggestions-row" id="suggestionRow">
+        <button class="sugg-chip" onclick="sendSuggestion('Dinner for 8 next Saturday at my place')">🍽️ Dinner for 8 this Saturday</button>
+        <button class="sugg-chip" onclick="sendSuggestion('Birthday party for 20, rooftop venue')">🎂 Rooftop birthday party</button>
+        <button class="sugg-chip" onclick="sendSuggestion('Wine tasting night for 12 friends this Friday')">🍷 Wine tasting for 12</button>
+        <button class="sugg-chip" onclick="sendSuggestion('Weekend BBQ at my house, about 15 people')">🔥 Weekend BBQ</button>
+      </div>
+
+      <!-- Input -->
+      <div class="full-chat-input-row">
+        <input class="full-chat-input" id="fullChatInput" type="text"
+               placeholder="Describe your event — I'll handle the rest..."
+               onkeydown="if(event.key==='Enter') fullChatSend()">
+        <button class="full-chat-send" onclick="fullChatSend()">
+          <i data-feather="send"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -2109,7 +1610,7 @@
       <input class="cta-input" type="email" placeholder="your@email.com">
       <button class="cta-btn">Start Free</button>
     </div>
-    <p style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:14px;">No credit card needed. Works with WhatsApp, LINE, Email & more.</p>
+    <p style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:14px;">No credit card needed. Works with WhatsApp, LINE, Email &amp; more.</p>
   </div>
 </section>
 
@@ -2118,10 +1619,7 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <img src="logobot.png" width="34" height="34" alt="Plan Bot Logo" style="border-radius: 8px;">
-          <span class="footer-brand-name">Plan Bot</span>
-        </div>
+        <div class="footer-brand-name">Plan Bot</div>
         <p class="footer-brand-desc">The invisible AI event coordinator that works through the messaging apps your guests already love. No downloads. No friction. Just perfect events.</p>
       </div>
       <div>
@@ -2157,7 +1655,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Plan Bot. All rights reserved.</span>
-      <span style="display:flex;align-items:center;gap:6px;">Built for modern hosts.</span>
+      <span>Built for modern hosts.</span>
       <span>plan-bot.com</span>
     </div>
   </div>
@@ -2165,267 +1663,341 @@
 
 <!-- ── SCRIPTS ── -->
 <script>
-// Initialize Feather icons
+// ── Init icons ──
 feather.replace();
 
-// Dynamic 3D tilt effect for the hero phone mockup
-const phoneWrap = document.querySelector('.phone-wrap');
-document.addEventListener('mousemove', (e) => {
-  // Only apply tilt if screen is large enough
-  if(window.innerWidth > 1024) {
-    const xAxis = (window.innerWidth / 2 - e.pageX) / 45;
-    const yAxis = (window.innerHeight / 2 - e.pageY) / 45;
-    phoneWrap.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateZ(20px)`;
+// ── Mascot click easter egg ──
+function mascotClick(el) {
+  el.style.transform = 'rotate(15deg) scale(0.92)';
+  setTimeout(() => { el.style.transform = ''; }, 500);
+  const bubble = document.createElement('div');
+  bubble.style.cssText = 'position:absolute; top:-52px; left:50%; transform:translateX(-50%); background:white; padding:9px 18px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); font-size:13px; font-weight:700; color:#1A0A0F; white-space:nowrap; z-index:20; pointer-events:none;';
+  const msgs = ["Let's plan something perfect! ✨", "I handle the details 🎉", "No friction. Just magic! 🪄", "Your next event is going to be great 💫"];
+  bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  el.parentNode.appendChild(bubble);
+  setTimeout(() => bubble.remove(), 2200);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// FULLY INTERACTIVE DEMO CHAT
+// ─────────────────────────────────────────────────────────────────
+const chatEl = () => document.getElementById('fullChatMessages');
+const inputEl = () => document.getElementById('fullChatInput');
+
+// Conversation state machine
+let chatState = 'idle';     // idle → asked_event → weather_shown → confirmed → rsvp_live → followup
+let eventDescription = '';
+let guestCount = 0;
+let eventDate = '';
+let confirmedCount = 0;
+let declinedCount = 0;
+let pendingCount = 0;
+
+// Parse rough guest count from text
+function parseGuests(text) {
+  const m = text.match(/\b(\d+)\b/);
+  return m ? parseInt(m[1]) : Math.floor(Math.random() * 10) + 8;
+}
+
+// ── Append a user bubble ──
+function appendUser(text) {
+  const el = chatEl();
+  const div = document.createElement('div');
+  div.className = 'fchat-msg user';
+  div.innerHTML = `<div class="fchat-bubble">${escHtml(text)}</div><div class="fchat-time">Just now</div>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ── Append a bot bubble (plain text) ──
+function appendBot(html, isHtml = false) {
+  const el = chatEl();
+  const div = document.createElement('div');
+  div.className = 'fchat-msg bot';
+  div.innerHTML = `<div class="fchat-bubble">${isHtml ? html : escHtml(html)}</div><div class="fchat-time">Just now</div>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  feather.replace();
+  return div;
+}
+
+// ── Append a rich card beneath the last bot bubble ──
+function appendCard(html) {
+  const el = chatEl();
+  const div = document.createElement('div');
+  div.className = 'fchat-msg bot';
+  div.innerHTML = html;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  feather.replace();
+  return div;
+}
+
+// ── Show typing indicator, return remover fn ──
+function showTyping() {
+  const el = chatEl();
+  const div = document.createElement('div');
+  div.className = 'fchat-typing';
+  div.innerHTML = '<div class="fchat-typing-dot"></div><div class="fchat-typing-dot"></div><div class="fchat-typing-dot"></div>';
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  return () => { if (div.parentNode) div.parentNode.removeChild(div); };
+}
+
+// ── Delay helper ──
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+// ── Escape HTML ──
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Weather card HTML ──
+function weatherCardHtml(ok) {
+  if (ok) {
+    return `<div class="fchat-card" style="border-color:rgba(34,197,94,0.3);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:22px;">☀️</span>
+        <div>
+          <div style="font-weight:700;font-size:13px;color:#1A0A0F;">${eventDate} — Perfect Weather!</div>
+          <div style="font-size:11px;color:#A06080;">Recommended date</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;font-size:13px;">
+        <div><strong style="font-size:15px;color:#1A0A0F;">24°C</strong><br><span style="color:#A06080;font-size:10px;">Temp</span></div>
+        <div><strong style="font-size:15px;color:#1A0A0F;">3%</strong><br><span style="color:#A06080;font-size:10px;">Rain</span></div>
+        <div><strong style="font-size:15px;color:#1A0A0F;">10km/h</strong><br><span style="color:#A06080;font-size:10px;">Wind</span></div>
+      </div>
+    </div>`;
+  } else {
+    return `<div class="fchat-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:22px;">🌧️</span>
+        <div>
+          <div style="font-weight:700;font-size:13px;color:#1A0A0F;">${eventDate} — Rain Warning</div>
+          <div style="font-size:11px;color:#A06080;">Weather check</div>
+        </div>
+      </div>
+      <div style="background:#fff4e5;border-radius:8px;padding:7px 10px;font-size:12px;color:#8B6000;margin-bottom:8px;">⚠️ 74% chance of rain in the evening</div>
+      <div style="display:flex;gap:14px;font-size:13px;">
+        <div><strong style="font-size:15px;color:#1A0A0F;">21°C</strong><br><span style="color:#A06080;font-size:10px;">Temp</span></div>
+        <div><strong style="font-size:15px;color:#1A0A0F;">74%</strong><br><span style="color:#A06080;font-size:10px;">Rain</span></div>
+        <div><strong style="font-size:15px;color:#1A0A0F;">35km/h</strong><br><span style="color:#A06080;font-size:10px;">Wind</span></div>
+      </div>
+    </div>`;
   }
-});
-
-// Demo Chat Logic
-const demoMessages = document.getElementById('demoMessages');
-const demoInput = document.getElementById('demoInput');
-let demoStep = 0;
-
-const quickStartTexts = [
-  "Rooftop BBQ for 20 on June 14th",
-  "Surprise birthday dinner, next Saturday",
-  "Wine tasting night for 12 friends"
-];
-
-function quickStart(idx) {
-  demoInput.value = quickStartTexts[idx];
-  handleDemoSend();
 }
 
-function setActiveStep(n) {
-  for (let i = 0; i <= 4; i++) {
-    const el = document.getElementById('step-' + i);
-    if (el) el.classList.toggle('active', i === n);
-  }
+// ── RSVP tracker card ──
+function rsvpCardHtml(confirmed, declined, pending) {
+  const total = confirmed + declined + pending;
+  const pct = Math.round((confirmed / total) * 100);
+  return `<div class="fchat-card">
+    <div style="font-weight:700;font-size:12px;color:#A06080;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Live RSVP Tracker</div>
+    <div class="fchat-rsvp-grid">
+      <div class="fchat-rsvp-pill" style="background:rgba(34,197,94,0.08);">
+        <div class="fchat-rsvp-num" style="color:#16a34a;">${confirmed}</div>
+        <div class="fchat-rsvp-lbl" style="color:#16a34a;">Confirmed</div>
+      </div>
+      <div class="fchat-rsvp-pill" style="background:rgba(239,68,68,0.08);">
+        <div class="fchat-rsvp-num" style="color:#dc2626;">${declined}</div>
+        <div class="fchat-rsvp-lbl" style="color:#dc2626;">Declined</div>
+      </div>
+      <div class="fchat-rsvp-pill" style="background:rgba(245,158,11,0.08);">
+        <div class="fchat-rsvp-num" style="color:#d97706;">${pending}</div>
+        <div class="fchat-rsvp-lbl" style="color:#d97706;">Pending</div>
+      </div>
+    </div>
+    <div style="background:#f0f0f0;border-radius:8px;overflow:hidden;height:6px;margin-top:12px;">
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#FF0055,#FF6B9D);border-radius:8px;transition:width 0.6s;"></div>
+    </div>
+    <div style="font-size:10px;color:#A06080;margin-top:4px;text-align:right;">${confirmed} of ${total} responded · ${pct}% response rate</div>
+  </div>`;
 }
 
-// BUG FIXED: Handles null content directly allowing 'typing' bubbles without reading properties of null
-function appendMsg(type, content, delay = 0) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const msg = document.createElement('div');
-      msg.className = 'msg ' + (type === 'user' ? 'msg-user' : 'msg-bot');
-
-      if (type === 'typing') {
-        msg.innerHTML = `<div class="msg-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-        demoMessages.appendChild(msg);
-        demoMessages.scrollTop = demoMessages.scrollHeight;
-        resolve(msg);
-        return;
-      }
-
-      if (!content) return resolve(msg); // safe fallback if content is null
-
-      if (typeof content === 'string') {
-        msg.innerHTML = `<div class="msg-bubble">${content}</div><div class="msg-time">Just now</div>`;
-      } else if (content.type === 'weather') {
-        msg.innerHTML = `
-          <div class="msg-bubble">${content.text || ''}</div>
-          <div class="msg-weather-card" style="margin-top:6px">
-            <div class="weather-header">
-              <span class="weather-icon">${content.icon}</span>
-              <div>
-                <div class="weather-title">${content.date} — Weather Check</div>
-                <div class="weather-date">Live forecast data</div>
-              </div>
-            </div>
-            <div class="weather-alert">${content.alert}</div>
-            <div class="weather-stats">
-              <div class="weather-stat"><strong>${content.temp}</strong>Temp</div>
-              <div class="weather-stat"><strong>${content.rain}</strong>Rain</div>
-              <div class="weather-stat"><strong>${content.wind}</strong>Wind</div>
-            </div>
-          </div>
-          <div class="msg-time">Just now</div>`;
-      } else if (content.type === 'calendar') {
-        msg.innerHTML = `
-          <div class="msg-bubble">${content.text || ''}</div>
-          <div class="msg-weather-card" style="margin-top:6px;border-color:rgba(34,197,94,0.3);">
-            <div class="weather-header">
-              <span class="weather-icon" style="color:#16a34a">${content.icon}</span>
-              <div>
-                <div class="weather-title">${content.date} — Perfect Day!</div>
-                <div class="weather-date">Recommended date</div>
-              </div>
-            </div>
-            <div class="weather-stats">
-              <div class="weather-stat"><strong>${content.temp}</strong>Temp</div>
-              <div class="weather-stat"><strong>${content.rain}</strong>Rain</div>
-              <div class="weather-stat"><strong>${content.wind}</strong>Wind</div>
-            </div>
-          </div>
-          <div class="msg-time">Just now</div>`;
-      } else if (content.type === 'guestList') {
-        const chips = content.channels.map(c => `
-          <div style="display:flex;align-items:center;gap:8px;background:#f7f7f9;border-radius:10px;padding:8px 10px;margin:4px 0;">
-            <span style="font-size:16px">${c.icon}</span>
-            <span style="font-size:12px;font-weight:600;color:#1A0A0F">${c.name}</span>
-            <span style="margin-left:auto;font-size:11px;color:#A06080;background:rgba(255,0,85,0.08);padding:2px 8px;border-radius:50px;">${c.count}</span>
-          </div>`).join('');
-        msg.innerHTML = `
-          <div class="msg-bubble">${content.text || ''}</div>
-          <div style="background:white;border-radius:14px;border:1.5px solid rgba(255,0,85,0.12);padding:12px;margin-top:6px;">
-            ${chips}
-          </div>
-          <div class="msg-time">Just now</div>`;
-      } else if (content.type === 'rsvpTracker') {
-        const total = content.confirmed + content.declined + content.pending;
-        msg.innerHTML = `
-          <div class="msg-bubble">${content.text || ''}</div>
-          <div style="background:white;border-radius:14px;border:1.5px solid rgba(255,0,85,0.12);padding:14px;margin-top:6px;">
-            <div style="display:flex;gap:8px;margin-bottom:10px;">
-              <div style="flex:1;background:rgba(34,197,94,0.08);border-radius:10px;padding:10px;text-align:center;">
-                <div style="font-size:22px;font-weight:800;color:#16a34a;font-family:'Syne',sans-serif">${content.confirmed}</div>
-                <div style="font-size:10px;color:#16a34a;font-weight:600">Confirmed</div>
-              </div>
-              <div style="flex:1;background:rgba(239,68,68,0.08);border-radius:10px;padding:10px;text-align:center;">
-                <div style="font-size:22px;font-weight:800;color:#dc2626;font-family:'Syne',sans-serif">${content.declined}</div>
-                <div style="font-size:10px;color:#dc2626;font-weight:600">Declined</div>
-              </div>
-              <div style="flex:1;background:rgba(245,158,11,0.08);border-radius:10px;padding:10px;text-align:center;">
-                <div style="font-size:22px;font-weight:800;color:#d97706;font-family:'Syne',sans-serif">${content.pending}</div>
-                <div style="font-size:10px;color:#d97706;font-weight:600">Pending</div>
-              </div>
-            </div>
-            <div style="background:#f7f7f9;border-radius:8px;overflow:hidden;height:6px;">
-              <div style="height:100%;width:${(content.confirmed/total)*100}%;background:linear-gradient(90deg,var(--hot-pink),var(--light-pink));border-radius:8px;transition:width 0.5s;"></div>
-            </div>
-            <div style="font-size:10px;color:var(--text-light);margin-top:5px;text-align:right;">${content.confirmed} of ${total} responded</div>
-          </div>
-          <div class="msg-time">Just now</div>`;
-      } else if (content.type === 'confirm') {
-        const details = content.details.map(d => `<div class="confirm-detail"><div class="confirm-check"><i data-feather="check" style="width:10px;"></i></div>${d}</div>`).join('');
-        msg.innerHTML = `
-          <div class="msg-confirm-card">
-            <div class="confirm-title">${content.title}</div>
-            <div class="confirm-details">${details}</div>
-          </div>
-          <div class="msg-time">Just now</div>`;
-      }
-
-      demoMessages.appendChild(msg);
-      demoMessages.scrollTop = demoMessages.scrollHeight;
-      feather.replace(); // Ensure dynamic icons render
-      resolve(msg);
-    }, delay);
-  });
+// ── Confirm card ──
+function confirmCardHtml(details) {
+  const rows = details.map(d => `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.15);font-size:13px;opacity:0.95;"><span style="font-size:14px;">✓</span> ${d}</div>`).join('');
+  return `<div class="fchat-msg bot"><div style="background:linear-gradient(135deg,#FF0055,#FF6B9D);color:white;padding:16px;border-radius:18px;border-bottom-left-radius:5px;">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;margin-bottom:10px;">🎉 Event Locked In!</div>
+    ${rows}
+  </div><div class="fchat-time">Just now</div></div>`;
 }
 
-async function showTypingThenMsg(content, typingDelay = 500, msgDelay = 1400) {
-  // BUG FIXED: Calls 'typing' to correctly render bubbles before showing content
-  const typingMsg = await appendMsg('typing', null, typingDelay); 
-  demoMessages.scrollTop = demoMessages.scrollHeight;
-
-  return new Promise(resolve => {
-    setTimeout(() => {
-      typingMsg.remove();
-      appendMsg('bot', content).then(resolve);
-    }, msgDelay);
-  });
+// ── Shopping list card ──
+function shoppingCardHtml(count) {
+  const items = [
+    ['🍷 Wine (red)', '3 bottles'], ['🍷 Wine (white)', '2 bottles'],
+    ['🥩 Charcuterie', '600g'], ['🧀 Cheese selection', '4 types'],
+    ['🥖 Artisan bread', '2 loaves'], ['🫒 Olives & nibbles', '3 bowls'],
+    ['🥗 Mixed salads', 'serves ' + count], ['🍰 Dessert', 'serves ' + count]
+  ].slice(0, Math.min(6, Math.ceil(count / 2)));
+  const rows = items.map(([n, q]) => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,0,85,0.06);font-size:13px;"><span>${n}</span><span style="color:#A06080;font-weight:600;">${q}</span></div>`).join('');
+  return `<div class="fchat-card">
+    <div style="font-weight:700;font-size:12px;color:#A06080;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">🛒 Shopping List · ${count} guests</div>
+    ${rows}
+    <div style="margin-top:10px;font-size:11px;color:#A06080;">Est. cost: $${Math.round(count * 8.5)}–$${Math.round(count * 12)} · Nearest Whole Foods: 0.4mi</div>
+  </div>`;
 }
 
-let demoState = 0;
-let isTyping = false;
+// ── Main conversation handler ──
+async function runConversation(userText) {
+  const inp = inputEl();
+  if (inp) inp.disabled = true;
 
-async function handleDemoSend() {
-  if (isTyping) return;
-  const text = demoInput.value.trim();
-  if (!text) return;
+  // Hide suggestions after first real message
+  const suggRow = document.getElementById('suggestionRow');
+  if (suggRow && chatState !== 'idle') suggRow.style.display = 'none';
 
-  isTyping = true;
-  demoInput.value = '';
-  demoInput.disabled = true;
+  if (chatState === 'idle' || chatState === 'asked_event') {
+    // First message — parse event
+    chatState = 'weather_shown';
+    eventDescription = userText;
+    guestCount = parseGuests(userText);
 
-  await appendMsg('user', text);
+    // Determine date label
+    const lc = userText.toLowerCase();
+    if (lc.includes('saturday')) eventDate = 'This Saturday';
+    else if (lc.includes('sunday'))  eventDate = 'This Sunday';
+    else if (lc.includes('friday'))  eventDate = 'This Friday';
+    else if (lc.includes('friday'))  eventDate = 'This Friday';
+    else eventDate = 'Your chosen date';
 
-  if (demoState === 0) {
-    setActiveStep(1);
-    await showTypingThenMsg({ type: 'text', text: `Love it! Let me run a <strong>live weather check</strong> for your event date...` }, 300, 1200);
-    await showTypingThenMsg({
-      type: 'weather',
-      text: '',
-      date: 'Saturday, June 14',
-      icon: '<i data-feather="cloud-rain"></i>',
-      alert: '<i data-feather="alert-triangle" style="width: 14px;"></i> 78% chance of heavy rain, 12pm–9pm',
-      temp: '19°C',
-      rain: '78%',
-      wind: '42km/h'
-    }, 400, 1600);
-    await showTypingThenMsg('Rain is very likely that day. I recommend we shift. Let me check the next clear day for you!', 300, 1000);
-    await showTypingThenMsg({
-      type: 'calendar',
-      text: '',
-      date: 'Sunday, June 15',
-      icon: '<i data-feather="sun"></i>',
-      temp: '26°C',
-      rain: '5%',
-      wind: '12km/h'
-    }, 300, 1200);
-    await showTypingThenMsg('June 15 looks perfect. Now, who should I invite? Send me names, numbers, or emails.', 200, 900);
-    demoState = 1;
-    setActiveStep(2);
+    const weatherOk = !lc.includes('friday') && Math.random() > 0.4;
 
-  } else if (demoState === 1) {
-    await showTypingThenMsg('Got it! I can see how to reach each of your guests.', 300, 1000);
-    await showTypingThenMsg({
-      type: 'guestList',
-      text: '',
-      channels: [
-        { icon: '<i data-feather="message-circle"></i>', name: 'WhatsApp', count: '9 guests' },
-        { icon: '<i data-feather="message-square"></i>', name: 'LINE', count: '4 guests' },
-        { icon: '<i data-feather="mail"></i>', name: 'Email', count: '5 guests' },
-        { icon: '<i data-feather="smartphone"></i>', name: 'SMS', count: '2 guests' },
-      ]
-    }, 400, 1400);
-    await showTypingThenMsg('Personalised invites sent to all 20 guests in their preferred app! Watching for RSVPs now...', 300, 1000);
-    demoState = 2;
-    setActiveStep(3);
+    let remove = showTyping();
+    await delay(900);
+    remove();
+    appendBot(`Perfect! Checking live weather for ${eventDate} and looking at guest calendar availability…`);
 
-  } else if (demoState === 2) {
-    await showTypingThenMsg('RSVPs are coming in fast! Here\'s the live tracker.', 300, 1000);
-    await showTypingThenMsg({
-      type: 'rsvpTracker',
-      text: '',
-      confirmed: 14,
-      declined: 2,
-      pending: 4,
-    }, 400, 1400);
-    await showTypingThenMsg('14 confirmed and counting! Shall I build the shopping list based on confirmed headcount?', 300, 1000);
-    demoState = 3;
-    setActiveStep(4);
+    await delay(400);
+    remove = showTyping();
+    await delay(1300);
+    remove();
 
-  } else if (demoState === 3) {
-    await showTypingThenMsg('Your event is locked and loaded! Here\'s the full summary.', 300, 1000);
-    await showTypingThenMsg({
-      type: 'confirm',
-      title: 'Your Event Is Fully Booked!',
-      details: [
-        'Sunday June 15 — clear skies, 26°C',
-        '14 confirmed guests (2 vegetarian)',
-        'Rooftop — directions sent to all guests',
-        'Shopping list: 47 items generated',
-        'Reminders set: 24hr & 1hr before',
-      ]
-    }, 400, 1400);
-    await showTypingThenMsg('You\'re all set! Just show up and enjoy your own party — I\'ll handle any last-minute changes.', 300, 1000);
-    demoState = 4;
+    if (weatherOk) {
+      appendBot(`Great news — the forecast looks beautiful for ${eventDate}! Here's the live weather check:`);
+      appendCard(weatherCardHtml(true));
+      await delay(600);
+      remove = showTyping();
+      await delay(1100);
+      remove();
+      appendBot(`Ready to lock in ${eventDate} for ${guestCount} guests? I'll send personalized invites via WhatsApp + Email the moment you confirm. Just say <strong>"yes, lock it in"</strong> or adjust anything you'd like.`, true);
+    } else {
+      appendBot(`Heads-up — there's a rain risk for ${eventDate}. Here's the forecast:`);
+      appendCard(weatherCardHtml(false));
+      await delay(600);
+      remove = showTyping();
+      await delay(1100);
+      remove();
+      appendBot(`I'd recommend moving it 2 hours earlier (the morning window is clear) or switching to the day after — perfect sunshine. Which would you prefer, or shall I just lock in the earlier slot?`);
+    }
+
+  } else if (chatState === 'weather_shown') {
+    chatState = 'confirmed';
+    const lc = userText.toLowerCase();
+    const isYes = lc.includes('yes') || lc.includes('lock') || lc.includes('go') || lc.includes('ok') || lc.includes('sure') || lc.includes('do it') || lc.includes('perfect') || lc.includes('great');
+
+    let remove = showTyping();
+    await delay(800);
+    remove();
+
+    if (isYes || lc.length < 30) {
+      appendBot(`Sending invites to ${guestCount} guests now across WhatsApp, Email, and LINE…`);
+      await delay(700);
+      appendCard(confirmCardHtml([
+        `${eventDate} · ${eventDescription.slice(0,40)}${eventDescription.length>40?'…':''}`,
+        `${guestCount} invites sent via WhatsApp, LINE & Email`,
+        `Shopping list generated · Est. $${Math.round(guestCount*9)}–$${Math.round(guestCount*13)}`,
+        'Reminders scheduled: 1 week · 24h · 1h before',
+        'RSVP tracking live — I\'ll update you in real time'
+      ]));
+    } else {
+      appendBot(`Got it — I've updated the event details. ${guestCount} invites are queued and ready to send whenever you confirm.`);
+    }
+
+    await delay(1200);
+    remove = showTyping();
+    await delay(1000);
+    remove();
+
+    confirmedCount  = Math.floor(guestCount * 0.55);
+    declinedCount   = Math.floor(guestCount * 0.1);
+    pendingCount    = guestCount - confirmedCount - declinedCount;
+    appendBot(`Early RSVPs are already coming in! Here's your live tracker:`);
+    appendCard(rsvpCardHtml(confirmedCount, declinedCount, pendingCount));
+
+  } else if (chatState === 'confirmed') {
+    chatState = 'rsvp_live';
+    const lc = userText.toLowerCase();
+
+    let remove = showTyping();
+    await delay(700);
+    remove();
+
+    if (lc.includes('shop') || lc.includes('food') || lc.includes('buy') || lc.includes('list')) {
+      appendBot(`Here's your personalized shopping list based on ${confirmedCount} confirmed guests:`);
+      appendCard(shoppingCardHtml(confirmedCount));
+    } else if (lc.includes('rsvp') || lc.includes('who') || lc.includes('guest') || lc.includes('confirm')) {
+      confirmedCount += 3; pendingCount = Math.max(0, pendingCount - 3);
+      appendBot(`Updated! Three more RSVPs just came in 🎉 Here's the latest:`);
+      appendCard(rsvpCardHtml(confirmedCount, declinedCount, pendingCount));
+    } else if (lc.includes('remind') || lc.includes('follow')) {
+      appendBot(`Reminders are already scheduled automatically — 1 week out, 24 hours before, and 1 hour before. I'll also send a gentle nudge to the ${pendingCount} guests who haven't responded yet tomorrow morning.`);
+    } else {
+      appendBot(`On it! I've updated the event. Your RSVP count is at ${confirmedCount} confirmed. Want to see the shopping list or send a quick update to all guests?`);
+    }
 
   } else {
-    await showTypingThenMsg('Your event is already fully planned! Start a new event anytime by refreshing this demo.', 300, 1000);
+    // Open-ended follow-up state
+    let remove = showTyping();
+    await delay(700);
+    remove();
+    const responses = [
+      `Done! I've taken care of that. Your event is looking perfect — ${confirmedCount} confirmed guests and everything in order.`,
+      `Got it. I'll handle that in the background. You just focus on being a great host — I've got everything else covered.`,
+      `Updated! Anything else you need? I can generate a timeline for the day, update the venue details, or resend invites to anyone who missed them.`,
+      `All sorted ✓. Your guests are in good hands. Is there anything else you'd like me to adjust before the big day?`
+    ];
+    appendBot(responses[Math.floor(Math.random() * responses.length)]);
   }
 
-  isTyping = false;
-  demoInput.disabled = false;
-  demoInput.focus();
+  if (inp) inp.disabled = false;
+  if (inp) inp.focus();
 }
 
-demoInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') handleDemoSend();
+// ── Send from input ──
+async function fullChatSend() {
+  const inp = inputEl();
+  if (!inp || inp.disabled) return;
+  const val = inp.value.trim();
+  if (!val) return;
+  inp.value = '';
+  appendUser(val);
+  if (chatState === 'idle') chatState = 'asked_event';
+  await runConversation(val);
+}
+
+// ── Send suggestion chip ──
+async function sendSuggestion(text) {
+  const inp = inputEl();
+  if (inp && inp.disabled) return;
+  appendUser(text);
+  if (chatState === 'idle') chatState = 'asked_event';
+  // Hide chips after first use
+  const suggRow = document.getElementById('suggestionRow');
+  if (suggRow) suggRow.style.display = 'none';
+  await runConversation(text);
+}
+
+// ── Welcome message on load ──
+window.addEventListener('DOMContentLoaded', () => {
+  feather.replace();
+  setTimeout(() => {
+    appendBot("Hey! I'm Plan Bot 👋 Tell me about the event you'd like to plan — what, when, and roughly how many people. I'll check the weather, send invites, and track RSVPs automatically.");
+    chatState = 'idle';
+  }, 600);
 });
 </script>
-
 </body>
 </html>
